@@ -1,4 +1,5 @@
 package dh.backend.demo.service;
 
-public class PacienteService {
+public interface IService {
+
 }
