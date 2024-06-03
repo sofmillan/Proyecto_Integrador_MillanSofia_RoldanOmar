@@ -1,16 +1,19 @@
 package dh.backend.demo.dao.impl;
 
 import dh.backend.demo.dao.IDao;
+import dh.backend.demo.dao.OdontologoDao;
 import dh.backend.demo.db.H2Connection;
 import dh.backend.demo.model.Odontologo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OdontologoDaoH2 implements IDao<Odontologo> {
+@Repository
+public class OdontologoDaoH2 implements OdontologoDao {
 
     private static final String SQL_INSERT = "INSERT INTO ODONTOLOGOS VALUES (DEFAULT,?,?,?)";
     private static final String SQL_SELECT_ALL = "SELECT * FROM ODONTOLOGOS";
