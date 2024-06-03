@@ -2,26 +2,27 @@ package dh.backend.demo.service.impl;
 
 import dh.backend.demo.dao.IDao;
 import dh.backend.demo.model.Odontologo;
-import dh.backend.demo.service.IService;
+import dh.backend.demo.service.IOdontologoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class OdontologoService implements IService<Odontologo> {
+public class OdontologoService implements IOdontologoService {
     private final IDao<Odontologo> repository;
 
     public OdontologoService(IDao<Odontologo> repository) {
         this.repository = repository;
     }
 
+
     @Override
-    public Odontologo registrar(Odontologo odontologo) {
+    public Odontologo registrarOdontologo(Odontologo odontologo) {
         return repository.registrar(odontologo);
     }
 
     @Override
-    public Odontologo buscarPorId(Integer id) {
+    public Odontologo buscarOdontologoPorId(Integer id) {
         return repository.buscarPorId(id);
     }
 
@@ -31,12 +32,12 @@ public class OdontologoService implements IService<Odontologo> {
     }
 
     @Override
-    public void actualizar(Odontologo odontologo) {
+    public void actualizarOdontologo(Odontologo odontologo) {
         repository.actualizar(odontologo);
     }
 
     @Override
-    public void eliminar(Integer id) {
+    public void eliminarOdontologo(Integer id) {
         repository.eliminar(id);
     }
 }
