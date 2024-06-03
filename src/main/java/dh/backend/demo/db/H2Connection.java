@@ -9,7 +9,7 @@ import java.sql.Connection;
 
 public class H2Connection {
     private final static String DB_JDBC_DRIVER = "org.h2.Driver";
-    private final static String DB_URL = "jdbc:h2:~/clinicaMVC2805";
+    private final static String DB_URL = "jdbc:h2:~/demo";
     private final static String DB_USER = "sa";
     private final static String DB_PASS = "sa";
     private static final Logger LOGGER = LoggerFactory.getLogger(H2Connection.class);
@@ -22,7 +22,8 @@ public class H2Connection {
         Connection connection = null;
         try {
             Class.forName("org.h2.Driver");
-            connection = DriverManager.getConnection("jdbc:h2:~/clinicaMVC3005;INIT=RUNSCRIPT FROM 'create.sql'", "sa", "sa");
+            connection = DriverManager.getConnection("jdbc:h2:~/demo;INIT=RUNSCRIPT FROM 'create.sql'", "sa", "sa");
+            System.out.println("CREADO");
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
@@ -34,4 +35,5 @@ public class H2Connection {
             }
         }
     }
+
 }

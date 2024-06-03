@@ -46,13 +46,13 @@ public class OdontologoController {
     @PutMapping
     public ResponseEntity<String> actualizarOdontologo(@RequestBody Odontologo odontologo){
         this.service.actualizarOdontologo(odontologo);
-        return ResponseEntity.ok("paciente actualizado");
+        return ResponseEntity.ok("Odontólogo actualizado");
     }
 
     @DeleteMapping("/{idOdontologo}")
     public ResponseEntity<String> eliminarOdontologo(@PathVariable Integer idOdontologo){
         this.service.eliminarOdontologo(idOdontologo);
-        return ResponseEntity.ok("Odontologo actualizado");
+        return ResponseEntity.ok("Odontólogo actualizado");
     }
 
 }
