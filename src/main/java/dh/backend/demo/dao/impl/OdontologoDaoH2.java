@@ -1,7 +1,6 @@
 package dh.backend.demo.dao.impl;
 
 import dh.backend.demo.dao.IDao;
-import dh.backend.demo.dao.OdontologoDao;
 import dh.backend.demo.db.H2Connection;
 import dh.backend.demo.model.Odontologo;
 import org.slf4j.Logger;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class OdontologoDaoH2 implements OdontologoDao {
+public class OdontologoDaoH2 implements IDao<Odontologo> {
 
     private static final String SQL_INSERT = "INSERT INTO ODONTOLOGOS VALUES (DEFAULT,?,?,?)";
     private static final String SQL_SELECT_ALL = "SELECT * FROM ODONTOLOGOS";

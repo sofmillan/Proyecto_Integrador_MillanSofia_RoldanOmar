@@ -1,7 +1,6 @@
 package dh.backend.demo.service.impl;
 
 import dh.backend.demo.dao.IDao;
-import dh.backend.demo.dao.OdontologoDao;
 import dh.backend.demo.model.Odontologo;
 import dh.backend.demo.service.IOdontologoService;
 import org.springframework.stereotype.Service;
@@ -10,9 +9,9 @@ import java.util.List;
 
 @Service
 public class OdontologoService implements IOdontologoService {
-    private final OdontologoDao repository;
+    private final IDao<Odontologo> repository;
 
-    public OdontologoService(OdontologoDao repository) {
+    public OdontologoService(IDao<Odontologo> repository) {
         this.repository = repository;
     }
 
