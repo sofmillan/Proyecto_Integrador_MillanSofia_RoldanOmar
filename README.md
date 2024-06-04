@@ -1,155 +1,74 @@
-# Proyecto integrador
+# Sistema de reserva de turnos para clínica odontológica
 
-Backend C4
+## Descripción del Proyecto
 
-## Postman
+Implementaciónde un sistema de reserva de turnos para una clínica odontológica, permitiendo la administración de datos de odontólogos y pacientes, así como la asignación de turnos.
+El sistema también incluye un mecanismo de autenticación y roles.
 
-{
-"info": {
-"\_postman_id": "e6682d1a-fe0e-4230-b672-c764884fd5a4",
-"name": "proyecto-integrador",
-"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-"\_exporter_id": "29640503"
-},
-"item": [
-{
-"name": "pacientes",
-"item": [
-{
-"name": "all",
-"request": {
-"method": "GET",
-"header": [],
-"url": {
-"raw": "{{baseUrl}}/paciente",
-"host": [
-"{{baseUrl}}"
-],
-"path": [
-"paciente"
-]
-}
-},
-"response": []
-},
-{
-"name": "by id",
-"request": {
-"method": "GET",
-"header": [],
-"url": {
-"raw": "{{baseUrl}}/paciente/3",
-"host": [
-"{{baseUrl}}"
-],
-"path": [
-"paciente",
-"3"
-]
-}
-},
-"response": []
-},
-{
-"name": "new paciente",
-"request": {
-"method": "POST",
-"header": [],
-"body": {
-"mode": "raw",
-"raw": " {\n \"apellido\": \"cosme\",\n \"nombre\": \"FULANITO\",\n \"email\": \"email@example.com\",\n \"dni\": \"1545646\",\n \"fechaIngreso\": \"2024-02-15\",\n \"domicilio\": {\n \"id\": 1,\n \"calle\": \"SIEMPRE VIVA\",\n \"numero\": 123,\n \"localidad\": \"SAN PEDRO\",\n \"provincia\": \"JUJUY\"\n }\n}",
-"options": {
-"raw": {
-"language": "json"
-}
-}
-},
-"url": {
-"raw": "{{baseUrl}}/paciente",
-"host": [
-"{{baseUrl}}"
-],
-"path": [
-"paciente"
-]
-}
-},
-"response": []
-},
-{
-"name": "update paciente",
-"request": {
-"method": "PUT",
-"header": [],
-"body": {
-"mode": "raw",
-"raw": "{\n \"id\": 3,\n \"nombre\": \"nuevo nombre\",\n \"apellido\": \"nuevo apellido\",\n \"email\": \"email@example.com\",\n \"dni\": \"123456\",\n \"fechaIngreso\": \"2024-02-15\",\n \"domicilio\": {\n \"id\": 3,\n \"calle\": \"calle\",\n \"numero\": 123,\n \"localidad\": \"SAN PEDRO\",\n \"provincia\": \"JUJUY\"\n }\n}",
-"options": {
-"raw": {
-"language": "json"
-}
-}
-},
-"url": {
-"raw": "{{baseUrl}}/paciente",
-"host": [
-"{{baseUrl}}"
-],
-"path": [
-"paciente"
-]
-}
-},
-"response": []
-},
-{
-"name": "by id",
-"request": {
-"method": "DELETE",
-"header": [],
-"url": {
-"raw": "{{baseUrl}}/paciente/3",
-"host": [
-"{{baseUrl}}"
-],
-"path": [
-"paciente",
-"3"
-]
-}
-},
-"response": []
-}
-]
-}
-],
-"event": [
-{
-"listen": "prerequest",
-"script": {
-"type": "text/javascript",
-"packages": {},
-"exec": [
-""
-]
-}
-},
-{
-"listen": "test",
-"script": {
-"type": "text/javascript",
-"packages": {},
-"exec": [
-""
-]
-}
-}
-],
-"variable": [
-{
-"key": "baseUrl",
-"value": "localhost:8080",
-"type": "string"
-}
-]
-}
+## Tecnologías Utilizadas
+
+- **Java 17**
+- **Spring Boot 3.3.0**
+- **Spring Data JPA**
+- **Spring Security**
+- **Spring Logging**
+- **H2 Database**
+- **Maven**
+- **HTML, CSS, JavaScript**
+
+## Uso
+
+1. Clona el repositorio:
+
+   ```bash
+   git clone https://github.com/sofmillan/Proyecto_Integrador_MillanSofia_RoldanOmar.git
+   cd Proyecto_Integrador_MillanSofia_RoldanOmar
+   ```
+
+2. Ejecuta el proyecto:
+
+   ```bash
+   # Inicia el proyecto en http://localhost:8080
+   mvn spring-boot:run
+   ```
+
+## Requerimientos Funcionales
+
+1. **Administración de Odontólogos**:
+
+   - Listar, agregar, modificar y eliminar odontólogos.
+   - Datos registrados: apellido, nombre y matrícula.
+
+2. **Administración de Pacientes**:
+
+   - Listar, agregar, modificar y eliminar pacientes.
+   - Datos registrados: nombre, apellido, domicilio, DNI y fecha de alta.
+
+3. **Registro de Turnos**:
+
+   - Asignar un turno a un paciente con un odontólogo a una fecha y hora específicas.
+
+4. **Login y Autorización**:
+
+   - Validar ingreso al sistema mediante usuario y contraseña.
+   - Los usuarios con rol `ROLE_USER` pueden registrar turnos.
+   - Los usuarios con rol `ROLE_ADMIN` pueden gestionar odontólogos y pacientes.
+   - Un usuario puede tener **solo un rol**, definido en la base de datos.
+
+## Requerimientos Técnicos
+
+1. **Capas**:
+
+   - **Entidades**: Clases `model` del negocio.
+   - **Acceso a Datos (DAO/Repository)**: Clases `dao` que manejan el acceso a la base de datos.
+   - **Negocio**: Clases `service` que desacoplan el acceso a datos de la vista / controlador REST.
+   - **Presentación**: Clases `controller` ya sea para Pantallas HTML o Controladores REST.
+   - **Base de datos**: Clase `db` para la conectarse a la base de datos H2.
+
+2. **Manejo de Excepciones**:
+
+   - Logueo de cualquier excepción generada.
+
+3. **Test Unitarios**:
+
+   - Realización de test unitarios para garantizar la calidad del código.
