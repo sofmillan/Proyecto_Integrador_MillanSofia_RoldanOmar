@@ -1,7 +1,6 @@
 package dh.backend.demo.dao.impl;
 
 import dh.backend.demo.dao.IDao;
-import dh.backend.demo.dao.ITurnoDao;
 import dh.backend.demo.model.Turno;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
