@@ -15,3 +15,4 @@ public interface IPacienteService {
 
     void eliminarPaciente(Integer id);
 }
+

@@ -1,13 +1,13 @@
 package dh.backend.demo.db;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Connection;
-
 public class H2Connection {
+
     private final static String DB_JDBC_DRIVER = "org.h2.Driver";
     private final static String DB_URL = "jdbc:h2:~/demo";
     private final static String DB_USER = "sa";
