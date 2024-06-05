@@ -52,7 +52,7 @@ public class OdontologoController {
     @DeleteMapping("/{idOdontologo}")
     public ResponseEntity<String> eliminarOdontologo(@PathVariable Integer idOdontologo){
         this.service.eliminarOdontologo(idOdontologo);
-        return ResponseEntity.ok("Odontólogo actualizado");
+        return ResponseEntity.ok("Odontólogo eliminado");
     }
 
 }
