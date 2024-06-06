@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class PacienteDaoH2 implements IDao<Paciente> {
   private static final Logger LOGGER = LoggerFactory.getLogger(PacienteDaoH2.class);
   private static String SQL_INSERT = "INSERT INTO PACIENTES VALUES (DEFAULT,?,?,?,?,?,?)";
