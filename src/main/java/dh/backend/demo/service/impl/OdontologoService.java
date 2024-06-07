@@ -2,42 +2,39 @@ package dh.backend.demo.service.impl;
 
 import dh.backend.demo.dao.IDao;
 import dh.backend.demo.model.Odontologo;
+import dh.backend.demo.repository.IOdontologoRepository;
 import dh.backend.demo.service.IOdontologoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OdontologoService implements IOdontologoService {
-    private final IDao<Odontologo> repository;
+    private IOdontologoRepository odontologoRepository;
 
-    public OdontologoService(IDao<Odontologo> repository) {
-        this.repository = repository;
+    public OdontologoService(IOdontologoRepository odontologoRepository) {
+        this.odontologoRepository = odontologoRepository;
     }
 
-
-    @Override
-    public Odontologo registrarOdontologo(Odontologo odontologo) {
-        return repository.registrar(odontologo);
+    public Odontologo registrarOdontologo(Odontologo odontologo){
+        return odontologoRepository.save(odontologo);
     }
 
-    @Override
-    public Odontologo buscarOdontologoPorId(Integer id) {
-        return repository.buscarPorId(id);
+    public Optional<Odontologo> buscarOdontologoPorId(Integer id){
+        return odontologoRepository.findById(id);
     }
-
-    @Override
-    public List<Odontologo> buscarTodos() {
-        return repository.buscarTodos();
+    public List<Odontologo> buscarTodos(){
+        return odontologoRepository.findAll();
     }
 
     @Override
-    public void actualizarOdontologo(Odontologo odontologo) {
-        repository.actualizar(odontologo);
+    public void modificarOdontologo(Odontologo odontologo) {
+        odontologoRepository.save(odontologo);
     }
 
     @Override
     public void eliminarOdontologo(Integer id) {
-        repository.eliminar(id);
+        odontologoRepository.deleteById(id);
     }
 }

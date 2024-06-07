@@ -3,11 +3,14 @@ package dh.backend.demo.service;
 import dh.backend.demo.model.Odontologo;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IOdontologoService {
     Odontologo registrarOdontologo(Odontologo odontologo);
-    Odontologo buscarOdontologoPorId(Integer id);
+
+    Optional<Odontologo> buscarOdontologoPorId(Integer id);
     List<Odontologo> buscarTodos();
-    void actualizarOdontologo(Odontologo paciente);
+
+    void modificarOdontologo(Odontologo odontologo);
     void eliminarOdontologo(Integer id);
 }
