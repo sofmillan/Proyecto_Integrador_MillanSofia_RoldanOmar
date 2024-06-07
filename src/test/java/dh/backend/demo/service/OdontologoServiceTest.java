@@ -1,6 +1,6 @@
 package dh.backend.demo.service;
 
-import dh.backend.demo.dao.impl.OdontologoDaoH2;
+
 import dh.backend.demo.model.Odontologo;
 import dh.backend.demo.repository.IOdontologoRepository;
 import dh.backend.demo.service.impl.OdontologoService;
