@@ -1,66 +1,23 @@
 package dh.backend.demo.model;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name ="odontologos")
 public class Odontologo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nroMatricula;
     private String nombre;
     private String apellido;
 
-    public Odontologo() {
-    }
 
-    public Odontologo(Integer id, String nroMatricula, String nombre, String apellido) {
-        this.id = id;
-        this.nroMatricula = nroMatricula;
-        this.nombre = nombre;
-        this.apellido = apellido;
-    }
-
-    public Odontologo(String nroMatricula, String nombre, String apellido) {
-        this.nroMatricula = nroMatricula;
-        this.nombre = nombre;
-        this.apellido = apellido;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNroMatricula() {
-        return nroMatricula;
-    }
-
-    public void setNroMatricula(String nroMatricula) {
-        this.nroMatricula = nroMatricula;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    @Override
-    public String toString() {
-        return "Odontologo{" +
-                "id=" + id +
-                ", nroMatricula='" + nroMatricula + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                '}';
-    }
 }
