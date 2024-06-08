@@ -1,68 +1,74 @@
 package dh.backend.demo.service.impl;
 
-
-import dh.backend.demo.dao.IDao;
-import dh.backend.demo.model.Odontologo;
-import dh.backend.demo.model.Paciente;
-import dh.backend.demo.model.Turno;
+import dh.backend.demo.entity.Odontologo;
+import dh.backend.demo.entity.Paciente;
+import dh.backend.demo.entity.Turno;
+import dh.backend.demo.respository.OdontologoRepository;
+import dh.backend.demo.respository.PacienteRepository;
+import dh.backend.demo.respository.TurnoRepository;
 import dh.backend.demo.service.ITurnoService;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TurnoService implements ITurnoService {
-    private IDao<Turno> turnoIDao;
-    private IDao<Paciente> pacienteIDao;
-    private IDao<Odontologo> odontologoIDao;
+  private TurnoRepository turnoRepository;
+  private PacienteRepository pacienteRepository;
+  private OdontologoRepository odontologoRepository;
 
-    public TurnoService(IDao<Turno> turnoIDao, IDao<Paciente> pacienteIDao, IDao<Odontologo> odontologoIDao) {
-        this.turnoIDao = turnoIDao;
-        this.pacienteIDao = pacienteIDao;
-        this.odontologoIDao = odontologoIDao;
-    }
+  public TurnoService(
+      TurnoRepository turnoRepository,
+      PacienteRepository pacienteRepository,
+      OdontologoRepository odontologoRepository) {
+    this.turnoRepository = turnoRepository;
+    this.pacienteRepository = pacienteRepository;
+    this.odontologoRepository = odontologoRepository;
+  }
 
-    @Override
-    public Turno registrar(Turno turno) {
-        Paciente paciente = pacienteIDao.buscarPorId(turno.getPaciente().getId());
-        Odontologo odontologo = odontologoIDao.buscarPorId(turno.getOdontologo().getId());
-        Turno turnoARegistrar = new Turno();
-        Turno turnoADevolver = null;
-        if(paciente!=null && odontologo!=null){
-            turnoARegistrar.setOdontologo(odontologo);
-            turnoARegistrar.setPaciente(paciente);
-            turnoARegistrar.setFecha(turno.getFecha());
-            turnoADevolver = turnoIDao.registrar(turnoARegistrar);
-        }
-        return turnoADevolver;
+  @Override
+  public Turno registrar(Turno turno) {
+    Optional<Paciente> pacienteBuscado = pacienteRepository.findById(turno.getPaciente().getId());
+    Optional<Odontologo> odontologoBuscado =
+        odontologoRepository.findById(turno.getOdontologo().getId());
+    Turno turnoARegistrar = new Turno();
+    Turno turnoADevolver = null;
+    if (pacienteBuscado.isPresent() && odontologoBuscado.isPresent()) {
+      turnoARegistrar.setOdontologo(odontologoBuscado.get());
+      turnoARegistrar.setPaciente(pacienteBuscado.get());
+      turnoARegistrar.setFecha(turno.getFecha());
+      turnoADevolver = turnoRepository.save(turnoARegistrar);
     }
+    return turnoADevolver;
+  }
 
-    @Override
-    public Turno buscarPorId(Integer id) {
-        return turnoIDao.buscarPorId(id);
-    }
+  @Override
+  public Optional<Turno> buscarPorId(Integer id) {
+    return turnoRepository.findById(id);
+  }
 
-    @Override
-    public List<Turno> buscarTodos() {
-        return turnoIDao.buscarTodos();
-    }
+  @Override
+  public List<Turno> buscarTodos() {
+    return turnoRepository.findAll();
+  }
 
-    @Override
-    public void actualizarTurno(Turno turno) {
-        Paciente paciente = pacienteIDao.buscarPorId(turno.getPaciente().getId());
-        Odontologo odontologo = odontologoIDao.buscarPorId(turno.getOdontologo().getId());
-        Turno turnoAModificar = new Turno();
-        if(paciente!=null && odontologo!=null){
-            turnoAModificar.setId(turno.getId());
-            turnoAModificar.setOdontologo(odontologo);
-            turnoAModificar.setPaciente(paciente);
-            turnoAModificar.setFecha(turno.getFecha());
-            turnoIDao.actualizar(turnoAModificar);
-        }
+  @Override
+  public void actualizarTurno(Turno turno) {
+    Optional<Paciente> pacienteBuscado = pacienteRepository.findById(turno.getPaciente().getId());
+    Optional<Odontologo> odontologoBuscado =
+        odontologoRepository.findById(turno.getOdontologo().getId());
+    Turno turnoAModificar = new Turno();
+    if (pacienteBuscado.isPresent() && odontologoBuscado.isPresent()) {
+      turnoAModificar.setId(turno.getId());
+      turnoAModificar.setOdontologo(odontologoBuscado.get());
+      turnoAModificar.setPaciente(pacienteBuscado.get());
+      turnoAModificar.setFecha(turno.getFecha());
+      turnoRepository.save(turnoAModificar);
     }
+  }
 
-    @Override
-    public void eliminarTurno(Integer id) {
-        turnoIDao.eliminar(id);
-    }
+  @Override
+  public void eliminarTurno(Integer id) {
+    turnoRepository.deleteById(id);
+  }
 }

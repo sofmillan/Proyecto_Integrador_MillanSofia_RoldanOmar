@@ -1,18 +1,17 @@
 package dh.backend.demo.service;
 
-import dh.backend.demo.model.Paciente;
-
+import dh.backend.demo.entity.Paciente;
 import java.util.List;
+import java.util.Optional;
 
 public interface IPacienteService {
-    Paciente registrarPaciente(Paciente paciente);
+  Paciente registrarPaciente(Paciente paciente);
 
-    Paciente buscarPorId(Integer id);
+  Optional<Paciente> buscarPorId(Integer id);
 
-    List<Paciente> buscarTodos();
+  List<Paciente> buscarTodos();
 
-    void actualizarPaciente(Paciente paciente);
+  void actualizarPaciente(Paciente paciente);
 
-    void eliminarPaciente(Integer id);
+  void eliminarPaciente(Integer id);
 }
-
