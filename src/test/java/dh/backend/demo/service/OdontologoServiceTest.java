@@ -1,65 +1,56 @@
 package dh.backend.demo.service;
 
-import dh.backend.demo.dao.impl.OdontologoDaoH2;
-import dh.backend.demo.model.Odontologo;
-import dh.backend.demo.service.impl.OdontologoService;
+import static org.junit.jupiter.api.Assertions.*;
+
+import dh.backend.demo.entity.Odontologo;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+@SpringBootTest
 public class OdontologoServiceTest {
-    private final static Logger LOGGER = LoggerFactory.getLogger(PacienteServiceTest.class);
-    private static IOdontologoService odontologoService = new OdontologoService(new OdontologoDaoH2());
-    @BeforeAll
-    static void crearTablas(){
-        Connection connection = null;
-        try {
-            Class.forName("org.h2.Driver");
-            connection = DriverManager.getConnection("jdbc:h2:~/demo;INIT=RUNSCRIPT FROM 'create.sql'", "sa", "sa");
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
-            }
-        }
-    }
+  private static final Logger LOGGER = LoggerFactory.getLogger(PacienteServiceTest.class);
+  private IOdontologoService odontologoService;
+  private static Odontologo odontologo;
 
-    @Test
-    void testOdontologoGuardado(){
-        Odontologo odontologo = new Odontologo("123","Ricky","Shen");
-        Odontologo odontologoGuardado = odontologoService.registrarOdontologo(odontologo);
-        assertNotNull(odontologoGuardado);
-    }
+  @Autowired
+  public OdontologoServiceTest(IOdontologoService odontologoService) {
+    this.odontologoService = odontologoService;
+  }
 
-    @Test
-    void testOdontologoId(){
-        Integer id = 1;
-        Odontologo odontologoEncontrado = odontologoService.buscarOdontologoPorId(id);
+  @BeforeAll
+  static void setup() {
+    odontologo = new Odontologo();
+    odontologo.setNroMatricula("12345");
+    odontologo.setNombre("odontologo nombre");
+    odontologo.setApellido("apellido");
+  }
 
-        assertEquals(id, odontologoEncontrado.getId());
-    }
+  @Test
+  void testOdontologoGuardado() {
+    Odontologo odontologoGuardado = odontologoService.registrarOdontologo(odontologo);
 
-    @Test
-    void testBusquedaTodos() {
-        Odontologo odontologo = new Odontologo("123","Ricky","Shen");
+    assertNotNull(odontologoGuardado);
+  }
 
-        odontologoService.registrarOdontologo(odontologo);
+  @Test
+  void testOdontologoId() {
+    Integer id = 1;
+    Optional<Odontologo> odontologoEncontrado = odontologoService.buscarOdontologoPorId(id);
+    Odontologo odontologoRecuperado = odontologoEncontrado.get();
 
-        List<Odontologo> odontologos = odontologoService.buscarTodos();
+    assertEquals(id, odontologoRecuperado.getId());
+  }
 
-        assertTrue(odontologos.size()!=0);
+  @Test
+  void testBusquedaTodos() {
+    List<Odontologo> odontologos = odontologoService.buscarTodos();
 
-    }
+    assertTrue(odontologos.size() != 0);
+  }
 }
