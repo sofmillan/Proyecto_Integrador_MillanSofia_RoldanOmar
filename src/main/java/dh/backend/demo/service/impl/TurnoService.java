@@ -28,13 +28,14 @@ public class TurnoService implements ITurnoService {
 
   @Override
   public Turno registrar(Turno turno) {
-    Paciente paciente = pacienteRepository.buscarPorId(turno.getPaciente().getId());
-    Odontologo odontologo = odontologoRepository.buscarPorId(turno.getOdontologo().getId());
+    Optional<Paciente> pacienteBuscado = pacienteRepository.findById(turno.getPaciente().getId());
+    Optional<Odontologo> odontologoBuscado =
+        odontologoRepository.findById(turno.getOdontologo().getId());
     Turno turnoARegistrar = new Turno();
     Turno turnoADevolver = null;
-    if (paciente != null && odontologo != null) {
-      turnoARegistrar.setOdontologo(odontologo);
-      turnoARegistrar.setPaciente(paciente);
+    if (pacienteBuscado.isPresent() && odontologoBuscado.isPresent()) {
+      turnoARegistrar.setOdontologo(odontologoBuscado.get());
+      turnoARegistrar.setPaciente(pacienteBuscado.get());
       turnoARegistrar.setFecha(turno.getFecha());
       turnoADevolver = turnoRepository.save(turnoARegistrar);
     }
@@ -53,13 +54,14 @@ public class TurnoService implements ITurnoService {
 
   @Override
   public void actualizarTurno(Turno turno) {
-    Paciente paciente = pacienteRepository.buscarPorId(turno.getPaciente().getId());
-    Odontologo odontologo = odontologoRepository.buscarPorId(turno.getOdontologo().getId());
+    Optional<Paciente> pacienteBuscado = pacienteRepository.findById(turno.getPaciente().getId());
+    Optional<Odontologo> odontologoBuscado =
+        odontologoRepository.findById(turno.getOdontologo().getId());
     Turno turnoAModificar = new Turno();
-    if (paciente != null && odontologo != null) {
+    if (pacienteBuscado.isPresent() && odontologoBuscado.isPresent()) {
       turnoAModificar.setId(turno.getId());
-      turnoAModificar.setOdontologo(odontologo);
-      turnoAModificar.setPaciente(paciente);
+      turnoAModificar.setOdontologo(odontologoBuscado.get());
+      turnoAModificar.setPaciente(pacienteBuscado.get());
       turnoAModificar.setFecha(turno.getFecha());
       turnoRepository.save(turnoAModificar);
     }
@@ -70,4 +72,3 @@ public class TurnoService implements ITurnoService {
     turnoRepository.deleteById(id);
   }
 }
-
