@@ -3,26 +3,57 @@ const form = document.getElementById("agregarForm");
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
+  let method = "POST";
   const nombre = document.getElementById("nombre").value;
   const apellido = document.getElementById("apellido").value;
   const matricula = document.getElementById("matricula").value;
+  let body = { nombre: nombre, apellido: apellido, nroMatricula: matricula }
+  const params = getUrlParams();
+
+  if (params.id) {
+    method = "PUT";
+    body = { id: params.id, nombre: nombre, apellido: apellido, nroMatricula: matricula }
+  }
 
   // llamando al endpoint de agregar
-
   fetch(`http://localhost:8080/odontologo`, {
-    method: "POST",
+    method: method,
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ nombre, apellido, nroMatricula: matricula }),
+    body: JSON.stringify(body),
   })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      alert("Odontólogo agregado con éxito");
-      form.reset(); // Resetear el formulario
+    .then((response) => {
+      const mensaje = params.id ? "Odontólogo modificado" : "Odontólogo agregado";
+      alert(mensaje);
+      // Navegar a la página de ver odontólogos
+      window.location.href = "../pages/listar_odontologos.html";
     })
     .catch((error) => {
       console.error("Error agregando odontólogo:", error);
     });
 });
+
+// Función para obtener parámetros de la URL
+function getUrlParams() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const id = searchParams.get("id");
+  const nombre = searchParams.get("nombre");
+  const apellido = searchParams.get("apellido");
+  const matricula = searchParams.get("matricula");
+  return { id, nombre, apellido, matricula };
+}
+
+// Rellenar el formulario si hay parámetros en la URL
+function fillForm() {
+  const params = getUrlParams();
+  if (params.id) {
+    document.getElementById("tituloFormulario").textContent = "Editar Odontólogo";
+    document.getElementById("nombre").value = params.nombre;
+    document.getElementById("apellido").value = params.apellido;
+    document.getElementById("matricula").value = params.matricula;
+    document.getElementById("botonFormulario").textContent = "Guardar Cambios";
+  }
+}
+
+fillForm();
