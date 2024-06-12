@@ -22,7 +22,7 @@
     <body>
       <div id="navbar-placeholder"></div>
       <div class="container">
-        <h1 class="mt-5">Agregar Odontólogo</h1>
+        <h1 class="mt-5" id="tituloFormulario">Agregar Odontólogo</h1>
         <form id="agregarForm">
           <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
@@ -36,8 +36,15 @@
             <label for="matricula" class="form-label">Matrícula</label>
             <input type="text" class="form-control" id="matricula" required />
           </div>
-          <button type="submit" class="btn btn-primary">Agregar</button>
+          <button type="submit" id="botonFormulario" class="btn btn-primary btn-sm">Agregar</button>
         </form>
+        <div class="text-center mt-5">
+          <a class="btn btn-outline-primary btn-sm" href="../pages/listar_odontologos.html">
+            <i class='bx bxs-show'></i>
+              Ver odontologos 
+          </a>
+        </div>
+
       </div>
     </body>
   </html>

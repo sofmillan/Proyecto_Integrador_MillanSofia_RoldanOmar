@@ -6,7 +6,6 @@ function fetchOdontologos() {
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-      console.log(tableBody);
       // Limpiar el contenido actual de la tabla
       tableBody.innerHTML = "";
 
@@ -20,8 +19,8 @@ function fetchOdontologos() {
                 <td>${odontologo.apellido}</td>
                 <td>${odontologo.nroMatricula}</td>
                 <td>
-                  <button class="btn btn-primary btn-sm" onclick="editOdontologo(${odontologo.id}, '${odontologo.nombre}', '${odontologo.apellido}', '${odontologo.nroMatricula}')">Modificar</button>
-                  <button class="btn btn-danger btn-sm" onclick="deleteOdontologo(${odontologo.id})">Eliminar</button>
+                  <button type="button" class="btn btn-primary btn-sm" onclick="editOdontologo(${odontologo.id}, '${odontologo.nombre}', '${odontologo.apellido}', '${odontologo.nroMatricula}')"><i class='bx bxs-edit-alt' ></i></button>
+                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteOdontologo(${odontologo.id})"><i class='bx bxs-trash' ></i></button>
                 </td>
               `;
 
@@ -31,10 +30,6 @@ function fetchOdontologos() {
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
-
-  // modificar un odontologo
-
-  // eliminar un odontologo
 }
 
 fetchOdontologos();
