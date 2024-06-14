@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IOdontologoService {
   OdontologoResponseDto registrarOdontologo(OdontologoRequestDto odontologo);
 
-  Optional<Odontologo> buscarOdontologoPorId(Integer id);
+  OdontologoResponseDto buscarOdontologoPorId(Integer id);
 
   List<Odontologo> buscarTodos();
 

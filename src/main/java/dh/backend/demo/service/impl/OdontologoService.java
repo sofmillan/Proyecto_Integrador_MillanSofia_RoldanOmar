@@ -3,6 +3,7 @@ package dh.backend.demo.service.impl;
 import dh.backend.demo.dto.request.OdontologoRequestDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.entity.Odontologo;
+import dh.backend.demo.exception.BadRequestException;
 import dh.backend.demo.exception.ResourceNotFoundException;
 import dh.backend.demo.respository.OdontologoRepository;
 import dh.backend.demo.service.IOdontologoService;
@@ -27,15 +28,23 @@ public class OdontologoService implements IOdontologoService {
 
   @Override
   public OdontologoResponseDto registrarOdontologo(OdontologoRequestDto odontologo) {
+    if(!validarOdontologo(odontologo)){
+/*
+      LOGGER.error("Error al guardar odontólogo - Información de odontólogo inválida");
+*/
+      throw new BadRequestException("Información de odontólogo inválida");
+    }
     Odontologo odontologoGuardado = repository.save(mapRequestToModel(odontologo));
+    LOGGER.info("Odontólogo guardado exitosamente "+odontologoGuardado);
+
     return mapModelToResponse(odontologoGuardado);
   }
 
   @Override
-  public Optional<Odontologo> buscarOdontologoPorId(Integer id) {
+  public OdontologoResponseDto buscarOdontologoPorId(Integer id) {
     Odontologo odontologoEncontrado = repository.findById(id).orElseThrow(
             ()-> new ResourceNotFoundException("Odontologo no encontrado"));
-    return repository.findById(id);
+    return mapModelToResponse(odontologoEncontrado);
   }
 
   @Override
@@ -58,6 +67,21 @@ public class OdontologoService implements IOdontologoService {
   }
   private OdontologoResponseDto mapModelToResponse(Odontologo odontologo){
     return mapper.map(odontologo, OdontologoResponseDto.class);
+  }
+
+  private boolean validarOdontologo(OdontologoRequestDto odontologoRequestDto){
+    if(odontologoRequestDto.getNombre() == null
+            || odontologoRequestDto.getApellido() == null
+            || odontologoRequestDto.getNroMatricula() == null){
+      return false;
+    }
+
+    if(odontologoRequestDto.getNombre().isBlank()
+            || odontologoRequestDto.getApellido().isBlank()
+            || odontologoRequestDto.getNroMatricula().isBlank()){
+      return false;
+    }
+    return true;
   }
 
 
