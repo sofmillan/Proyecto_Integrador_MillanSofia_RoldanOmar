@@ -1,5 +1,7 @@
 package dh.backend.demo.controller;
 
+import dh.backend.demo.dto.request.OdontologoRequestDto;
+import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.entity.Odontologo;
 import dh.backend.demo.service.IOdontologoService;
 import java.util.List;
@@ -24,8 +26,8 @@ public class OdontologoController {
   }
 
   @PostMapping
-  public ResponseEntity<Odontologo> registrar(@RequestBody Odontologo odontologo) {
-    Odontologo odontologoGuardado = this.service.registrarOdontologo(odontologo);
+  public ResponseEntity<OdontologoResponseDto> registrar(@RequestBody OdontologoRequestDto odontologo) {
+    OdontologoResponseDto odontologoGuardado = this.service.registrarOdontologo(odontologo);
     if (odontologoGuardado != null) {
       return ResponseEntity.status(HttpStatus.CREATED).body(odontologoGuardado);
     } else {
