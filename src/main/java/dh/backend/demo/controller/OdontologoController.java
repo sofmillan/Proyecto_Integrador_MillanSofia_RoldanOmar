@@ -1,6 +1,7 @@
 package dh.backend.demo.controller;
 
 import dh.backend.demo.dto.request.OdontologoRequestDto;
+import dh.backend.demo.dto.request.OdontologoUpdateDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.entity.Odontologo;
 import dh.backend.demo.service.IOdontologoService;
@@ -20,8 +21,8 @@ public class OdontologoController {
   }
 
   @GetMapping
-  public ResponseEntity<List<Odontologo>> buscarTodosOdontologos() {
-    List<Odontologo> odontologos = odontologoService.buscarTodos();
+  public ResponseEntity<List<OdontologoResponseDto>> buscarTodosOdontologos() {
+    List<OdontologoResponseDto> odontologos = odontologoService.buscarTodos();
     return ResponseEntity.ok(odontologos);
   }
 
@@ -34,16 +35,12 @@ public class OdontologoController {
 
   @GetMapping("/{idOdontologo}")
   public ResponseEntity<OdontologoResponseDto> buscarPorId(@PathVariable Integer idOdontologo) {
-    OdontologoResponseDto odontologoGuardado = this.odontologoService.buscarOdontologoPorId(idOdontologo);
-    if (odontologoGuardado != null) {
-      return ResponseEntity.status(HttpStatus.CREATED).body(odontologoGuardado);
-    } else {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
+    OdontologoResponseDto odontologoEncontrado = this.odontologoService.buscarOdontologoPorId(idOdontologo);
+      return ResponseEntity.ok(odontologoEncontrado);
   }
 
   @PutMapping
-  public ResponseEntity<String> actualizarOdontologo(@RequestBody Odontologo odontologo) {
+  public ResponseEntity<String> actualizarOdontologo(@RequestBody OdontologoUpdateDto odontologo) {
     this.odontologoService.actualizarOdontologo(odontologo);
     return ResponseEntity.ok("Odontólogo actualizado");
   }

@@ -1,6 +1,7 @@
 package dh.backend.demo.service;
 
 import dh.backend.demo.dto.request.OdontologoRequestDto;
+import dh.backend.demo.dto.request.OdontologoUpdateDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.entity.Odontologo;
 import java.util.List;
@@ -11,9 +12,9 @@ public interface IOdontologoService {
 
   OdontologoResponseDto buscarOdontologoPorId(Integer id);
 
-  List<Odontologo> buscarTodos();
+  List<OdontologoResponseDto> buscarTodos();
 
-  void actualizarOdontologo(Odontologo paciente);
+  void actualizarOdontologo(OdontologoUpdateDto paciente);
 
   void eliminarOdontologo(Integer id);
 }
