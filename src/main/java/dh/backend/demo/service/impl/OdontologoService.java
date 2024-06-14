@@ -3,6 +3,7 @@ package dh.backend.demo.service.impl;
 import dh.backend.demo.dto.request.OdontologoRequestDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.entity.Odontologo;
+import dh.backend.demo.exception.ResourceNotFoundException;
 import dh.backend.demo.respository.OdontologoRepository;
 import dh.backend.demo.service.IOdontologoService;
 import java.util.List;
@@ -32,6 +33,8 @@ public class OdontologoService implements IOdontologoService {
 
   @Override
   public Optional<Odontologo> buscarOdontologoPorId(Integer id) {
+    Odontologo odontologoEncontrado = repository.findById(id).orElseThrow(
+            ()-> new ResourceNotFoundException("Odontologo no encontrado"));
     return repository.findById(id);
   }
 
