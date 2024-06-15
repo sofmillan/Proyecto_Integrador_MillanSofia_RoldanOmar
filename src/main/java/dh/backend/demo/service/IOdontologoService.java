@@ -16,4 +16,8 @@ public interface IOdontologoService {
   void actualizarOdontologo(Odontologo paciente);
 
   void eliminarOdontologo(Integer id);
+
+  List<Odontologo> buscarPorNombre(String nombre);
+
+  List<Odontologo> buscarPorMatricula(String matricula);
 }

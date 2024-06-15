@@ -34,7 +34,7 @@ public class OdontologoService implements IOdontologoService {
   @Override
   public Optional<Odontologo> buscarOdontologoPorId(Integer id) {
     Odontologo odontologoEncontrado = repository.findById(id).orElseThrow(
-            ()-> new ResourceNotFoundException("Odontologo no encontrado"));
+        () -> new ResourceNotFoundException("Odontologo no encontrado"));
     return repository.findById(id);
   }
 
@@ -53,12 +53,22 @@ public class OdontologoService implements IOdontologoService {
     repository.deleteById(id);
   }
 
-  private Odontologo mapRequestToModel(OdontologoRequestDto odontologo){
+  private Odontologo mapRequestToModel(OdontologoRequestDto odontologo) {
     return mapper.map(odontologo, Odontologo.class);
   }
-  private OdontologoResponseDto mapModelToResponse(Odontologo odontologo){
+
+  private OdontologoResponseDto mapModelToResponse(Odontologo odontologo) {
     return mapper.map(odontologo, OdontologoResponseDto.class);
   }
 
+  @Override
+  public List<Odontologo> buscarPorNombre(String nombre) {
+    return repository.findByNombre(nombre);
+  }
+
+  @Override
+  public List<Odontologo> buscarPorMatricula(String matricula) {
+    return repository.findByNroMatricula(matricula);
+  }
 
 }

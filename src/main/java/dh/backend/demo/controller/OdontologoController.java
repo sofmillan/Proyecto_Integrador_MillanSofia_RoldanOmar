@@ -4,6 +4,7 @@ import dh.backend.demo.dto.request.OdontologoRequestDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.entity.Odontologo;
 import dh.backend.demo.service.IOdontologoService;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -55,5 +56,15 @@ public class OdontologoController {
   public ResponseEntity<String> eliminarOdontologo(@PathVariable Integer idOdontologo) {
     this.service.eliminarOdontologo(idOdontologo);
     return ResponseEntity.ok("Odontólogo eliminado");
+  }
+
+  @GetMapping("/nombre/{nombreOdontologo}")
+  public ResponseEntity<List<Odontologo>> buscarPorNombre(@PathVariable String nombreOdontologo) {
+    return ResponseEntity.ok(service.buscarPorNombre(nombreOdontologo));
+  }
+
+  @GetMapping("/matricula/{nroMatricula}")
+  public ResponseEntity<List<Odontologo>> buscarOdontologoPorMatricula(@PathVariable String nroMatricula) {
+    return ResponseEntity.ok(service.buscarPorMatricula(nroMatricula));
   }
 }
