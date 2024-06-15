@@ -82,4 +82,9 @@ public class TurnoService implements ITurnoService {
     }
     return listadoARetornar;
   }
+
+  @Override
+  public List<Turno> buscarTurnoPorPaciente(String nombre) {
+    return turnoRepository.findByPacienteNombre(nombre);
+  }
 }

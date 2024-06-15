@@ -19,4 +19,6 @@ public interface ITurnoService {
 
   // HQL
   List<Turno> buscarTurnoEntreFechas(LocalDate startDate, LocalDate endDate);
+
+  List<Turno> buscarTurnoPorPaciente(String Nombre);
 }

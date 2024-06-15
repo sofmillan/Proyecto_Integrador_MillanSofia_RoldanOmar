@@ -6,6 +6,7 @@ import dh.backend.demo.service.ITurnoService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,12 @@ public class TurnoController {
     return ResponseEntity.ok("Turno modificado");
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity<String> eliminarPaciente(@PathVariable Integer id) {
+    turnoService.eliminarTurno(id);
+    return ResponseEntity.ok("Turno eliminado");
+  }
+
   private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   @GetMapping("/fechas")
@@ -48,6 +55,11 @@ public class TurnoController {
     LocalDate fechaFinal = LocalDate.parse(fin, formatter);
 
     return ResponseEntity.ok(turnoService.buscarTurnoEntreFechas(fechaInicio, fechaFinal));
+  }
+
+  @GetMapping("/paciente/{nombre}")
+  public ResponseEntity<List<Turno>> buscarPorPaciente(@PathVariable String nombre) {
+    return ResponseEntity.ok(turnoService.buscarTurnoPorPaciente(nombre));
   }
 
 }
