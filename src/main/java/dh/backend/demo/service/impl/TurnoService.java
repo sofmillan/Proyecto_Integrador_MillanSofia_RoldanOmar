@@ -7,6 +7,9 @@ import dh.backend.demo.respository.OdontologoRepository;
 import dh.backend.demo.respository.PacienteRepository;
 import dh.backend.demo.respository.TurnoRepository;
 import dh.backend.demo.service.ITurnoService;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -29,8 +32,7 @@ public class TurnoService implements ITurnoService {
   @Override
   public Turno registrar(Turno turno) {
     Optional<Paciente> pacienteBuscado = pacienteRepository.findById(turno.getPaciente().getId());
-    Optional<Odontologo> odontologoBuscado =
-        odontologoRepository.findById(turno.getOdontologo().getId());
+    Optional<Odontologo> odontologoBuscado = odontologoRepository.findById(turno.getOdontologo().getId());
     Turno turnoARegistrar = new Turno();
     Turno turnoADevolver = null;
     if (pacienteBuscado.isPresent() && odontologoBuscado.isPresent()) {
@@ -55,8 +57,7 @@ public class TurnoService implements ITurnoService {
   @Override
   public void actualizarTurno(Turno turno) {
     Optional<Paciente> pacienteBuscado = pacienteRepository.findById(turno.getPaciente().getId());
-    Optional<Odontologo> odontologoBuscado =
-        odontologoRepository.findById(turno.getOdontologo().getId());
+    Optional<Odontologo> odontologoBuscado = odontologoRepository.findById(turno.getOdontologo().getId());
     Turno turnoAModificar = new Turno();
     if (pacienteBuscado.isPresent() && odontologoBuscado.isPresent()) {
       turnoAModificar.setId(turno.getId());
@@ -70,5 +71,15 @@ public class TurnoService implements ITurnoService {
   @Override
   public void eliminarTurno(Integer id) {
     turnoRepository.deleteById(id);
+  }
+
+  @Override
+  public List<Turno> buscarTurnoEntreFechas(LocalDate startDate, LocalDate endDate) {
+    List<Turno> listadoTurnos = turnoRepository.buscarTurnoEntreFechas(startDate, endDate);
+    List<Turno> listadoARetornar = new ArrayList<>();
+    for (Turno turno : listadoTurnos) {
+      listadoARetornar.add(turno);
+    }
+    return listadoARetornar;
   }
 }
