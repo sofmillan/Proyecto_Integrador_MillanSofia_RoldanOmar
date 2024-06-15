@@ -1,5 +1,7 @@
 package dh.backend.demo.controller;
 
+import dh.backend.demo.dto.request.PacienteRequestDto;
+import dh.backend.demo.dto.response.PacienteResponseDto;
 import dh.backend.demo.entity.Paciente;
 import dh.backend.demo.service.impl.PacienteService;
 import java.util.List;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/paciente")
 public class PacienteController {
 
-  private PacienteService pacienteService;
+  private final PacienteService pacienteService;
 
   public PacienteController(PacienteService pacienteService) {
     this.pacienteService = pacienteService;
@@ -42,8 +44,8 @@ public class PacienteController {
   }
 
   @PostMapping
-  public ResponseEntity<Paciente> guardarPaciente(@RequestBody Paciente paciente) {
-    Paciente pacienteGuardado = pacienteService.registrarPaciente(paciente);
+  public ResponseEntity<PacienteResponseDto> guardarPaciente(@RequestBody PacienteRequestDto paciente) {
+    PacienteResponseDto pacienteGuardado = pacienteService.registrarPaciente(paciente);
     if (pacienteGuardado != null) {
       return ResponseEntity.status(HttpStatus.CREATED).body(pacienteGuardado);
     } else {
