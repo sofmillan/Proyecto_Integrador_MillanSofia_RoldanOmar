@@ -62,4 +62,17 @@ public class PacienteController {
     pacienteService.eliminarPaciente(id);
     return ResponseEntity.ok("paciente eliminado");
   }
+
+  @GetMapping("/dni/{dni}")
+  public ResponseEntity<List<Paciente>> buscartPorDni(@PathVariable String dni) {
+    List<Paciente> pacientesEncontrados = pacienteService.buscarPorDni(dni);
+    return ResponseEntity.status(HttpStatus.OK).body(pacientesEncontrados);
+  }
+
+  @GetMapping("/domicilio/provincia/{provincia}")
+  public ResponseEntity<List<Paciente>> buscarPorDomicilio(@PathVariable String provincia) {
+    List<Paciente> pacientesEncontrados = pacienteService.buscarPorDomicilioProvincia(provincia);
+    return ResponseEntity.status(HttpStatus.OK).body(pacientesEncontrados);
+  }
+
 }

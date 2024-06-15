@@ -40,4 +40,14 @@ public class PacienteService implements IPacienteService {
   public void eliminarPaciente(Integer id) {
     pacienteRepository.deleteById(id);
   }
+
+  @Override
+  public List<Paciente> buscarPorDni(String dni) {
+    return pacienteRepository.findByDni(dni);
+  }
+
+  @Override
+  public List<Paciente> buscarPorDomicilioProvincia(String provincia) {
+    return pacienteRepository.findByDomicilioProvincia(provincia);
+  }
 }
