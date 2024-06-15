@@ -13,13 +13,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiException> recursoNoEncontrado(ResourceNotFoundException e){
-        ApiException apiException = new ApiException(e.getMessage(), LocalDateTime.now(), HttpStatus.NOT_FOUND);
+        ApiException apiException = new ApiException(e.getMessage(), LocalDateTime.now(), HttpStatus.NOT_FOUND, 404);
         return ResponseEntity.status(HttpStatusCode.valueOf(404)).body(apiException);
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Object> handleBadRequest(BadRequestException e){
-        ApiException apiException = new ApiException(e.getMessage(), LocalDateTime.now(), HttpStatus.BAD_REQUEST);
+        ApiException apiException = new ApiException(e.getMessage(), LocalDateTime.now(), HttpStatus.BAD_REQUEST, 400);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiException);
     }
 }
