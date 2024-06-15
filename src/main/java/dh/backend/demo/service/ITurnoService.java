@@ -1,11 +1,12 @@
 package dh.backend.demo.service;
 
+import dh.backend.demo.dto.request.TurnoRequestDto;
 import dh.backend.demo.entity.Turno;
 import java.util.List;
 import java.util.Optional;
 
 public interface ITurnoService {
-  Turno registrar(Turno turno);
+  Turno registrar(TurnoRequestDto turno);
 
   Optional<Turno> buscarPorId(Integer id);
 

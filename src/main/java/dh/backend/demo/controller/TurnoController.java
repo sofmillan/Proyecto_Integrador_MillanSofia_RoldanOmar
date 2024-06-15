@@ -1,5 +1,6 @@
 package dh.backend.demo.controller;
 
+import dh.backend.demo.dto.request.TurnoRequestDto;
 import dh.backend.demo.entity.Turno;
 import dh.backend.demo.service.ITurnoService;
 import java.util.List;
@@ -17,7 +18,7 @@ public class TurnoController {
   }
 
   @PostMapping
-  public ResponseEntity<Turno> agregarTurno(@RequestBody Turno turno) {
+  public ResponseEntity<Turno> agregarTurno(@RequestBody TurnoRequestDto turno) {
     Turno turnoADevolver = turnoService.registrar(turno);
     if (turnoADevolver == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
