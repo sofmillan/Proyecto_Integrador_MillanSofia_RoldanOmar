@@ -53,11 +53,11 @@ public class OdontologoService implements IOdontologoService {
     repository.deleteById(id);
   }
 
-  private Odontologo mapRequestToModel(OdontologoRequestDto odontologo) {
+  public Odontologo mapRequestToModel(OdontologoRequestDto odontologo) {
     return mapper.map(odontologo, Odontologo.class);
   }
 
-  private OdontologoResponseDto mapModelToResponse(Odontologo odontologo) {
+  public OdontologoResponseDto mapModelToResponse(Odontologo odontologo) {
     return mapper.map(odontologo, OdontologoResponseDto.class);
   }
 

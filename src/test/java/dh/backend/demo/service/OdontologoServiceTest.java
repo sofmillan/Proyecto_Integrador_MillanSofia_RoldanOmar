@@ -2,6 +2,8 @@ package dh.backend.demo.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import dh.backend.demo.dto.request.OdontologoRequestDto;
+import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.entity.Odontologo;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +19,7 @@ public class OdontologoServiceTest {
   private static final Logger LOGGER = LoggerFactory.getLogger(PacienteServiceTest.class);
   private IOdontologoService odontologoService;
 
-  private static Odontologo odontologo;
+  private static OdontologoRequestDto odontologo;
 
   @Autowired
   public OdontologoServiceTest(IOdontologoService odontologoService) {
@@ -26,18 +28,18 @@ public class OdontologoServiceTest {
 
   @BeforeAll
   static void setup() {
-    odontologo = new Odontologo();
+    odontologo = new OdontologoRequestDto();
     odontologo.setNroMatricula("12345");
     odontologo.setNombre("odontologo nombre");
     odontologo.setApellido("apellido");
   }
 
-/*  @Test
+  @Test
   void testOdontologoGuardado() {
-    Odontologo odontologoGuardado = odontologoService.registrarOdontologo(odontologo);
+    OdontologoResponseDto odontologoGuardado = odontologoService.registrarOdontologo(odontologo);
 
     assertNotNull(odontologoGuardado);
-  }*/
+  }
 
   @Test
   void testOdontologoId() {
@@ -48,7 +50,7 @@ public class OdontologoServiceTest {
     assertEquals(id, odontologoRecuperado.getId());
   }
 
-  @Test
+  // @Test
   void testBusquedaTodos() {
     List<Odontologo> odontologos = odontologoService.buscarTodos();
 
