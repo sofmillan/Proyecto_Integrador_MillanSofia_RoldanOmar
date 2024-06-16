@@ -78,6 +78,28 @@ public class OdontologoService implements IOdontologoService {
     LOGGER.info("Odontólogo con id:"+id+" eliminado");
   }
 
+  @Override
+  public List<OdontologoResponseDto> buscarPorNombre(String nombre) {
+    System.out.println(nombre);
+    List<OdontologoResponseDto> odontologosEncontrados = repository.findByNombre(nombre)
+            .stream()
+            .map(this::mapModelToResponse)
+            .collect(Collectors.toList());
+    System.out.println(odontologosEncontrados);
+    LOGGER.info("Odontólogos fueron encontrados por nombre");
+    return odontologosEncontrados;
+  }
+
+  @Override
+  public List<OdontologoResponseDto> buscarPorMatricula(String matricula) {
+    List<OdontologoResponseDto> odontologosEncontrados = repository.findByNroMatricula(matricula)
+            .stream()
+            .map(this::mapModelToResponse)
+            .collect(Collectors.toList());
+    LOGGER.info("Odontólogos fueron encontrados por nro de matrícula");
+    return odontologosEncontrados;
+  }
+
   private Odontologo mapRequestToModel(OdontologoRequestDto odontologo){
     return mapper.map(odontologo, Odontologo.class);
   }

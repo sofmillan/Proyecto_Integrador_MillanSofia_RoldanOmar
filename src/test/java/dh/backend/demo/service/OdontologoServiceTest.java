@@ -22,7 +22,7 @@ public class OdontologoServiceTest {
 
   @Test
   void testOdontologoGuardado() {
-   OdontologoRequestDto odontologo = new OdontologoRequestDto("12345", "Nombre","Apellido");
+   OdontologoRequestDto odontologo = new OdontologoRequestDto("12345", "Ricky","Shen");
 
     OdontologoResponseDto odontologoGuardado = odontologoService.registrarOdontologo(odontologo);
 
@@ -45,11 +45,27 @@ public class OdontologoServiceTest {
 
     @Test
     void testActualizarOdontologo() {
-        OdontologoUpdateDto odontologo = new OdontologoUpdateDto(1,"999", "Nombre","Apellido");
+        OdontologoUpdateDto odontologo = new OdontologoUpdateDto(1,"999", "Ricky","Shen");
 
         odontologoService.actualizarOdontologo(odontologo);
 
         assertEquals("999", odontologoService.buscarOdontologoPorId(1).getNroMatricula());
+    }
+
+    @Test
+    void testBuscarPorNombre() {
+        odontologoService.registrarOdontologo(new OdontologoRequestDto("12345", "Hannah","Marin"));
+
+        List<OdontologoResponseDto> odontologos = odontologoService.buscarPorNombre("Hannah");
+
+        assertTrue(odontologos.size() != 0);
+    }
+
+    @Test
+    void testBuscarPorNumeroMatricula() {
+        List<OdontologoResponseDto> odontologos = odontologoService.buscarPorMatricula("999");
+
+        assertTrue(odontologos.size() != 0);
     }
 
     @Test
