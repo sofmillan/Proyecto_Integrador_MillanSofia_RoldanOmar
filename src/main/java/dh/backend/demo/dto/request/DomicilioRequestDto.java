@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class DomicilioRequestDto {
+    private Integer id;
     private String calle;
     private Integer numero;
     private String localidad;
