@@ -13,6 +13,6 @@ import java.time.LocalDate;
 public class TurnoResponseDto {
     private Integer id;
     private OdontologoResponseDto odontologo;
-    private PacienteRequestDto paciente;
+    private PacienteResponseDto paciente;
     private LocalDate fecha;
 }

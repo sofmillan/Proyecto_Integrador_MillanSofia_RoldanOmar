@@ -47,10 +47,14 @@ public class TurnoService implements ITurnoService {
     turnoARegistrar.setOdontologo(odontologoBuscado);
     turnoARegistrar.setPaciente(pacienteBuscado);
     turnoARegistrar.setFecha(LocalDate.parse(turno.getFecha()));
-    Turno turnoADevolver = null;
-    turnoADevolver = turnoRepository.save(turnoARegistrar);
+    Turno turnoGuardado = turnoRepository.save(turnoARegistrar);
 
-    return null;
+    TurnoResponseDto turnoResponse = new TurnoResponseDto();
+    turnoResponse.setId(turnoGuardado.getId());
+    turnoResponse.setPaciente(PacienteService.mapPacienteModelToResponse(turnoGuardado.getPaciente()));
+    turnoResponse.setOdontologo(OdontologoService.mapModelToResponse(turnoGuardado.getOdontologo()));
+    turnoResponse.setFecha(turnoGuardado.getFecha());
+    return turnoResponse;
   }
 
   @Override
