@@ -15,7 +15,7 @@ public interface ITurnoService {
 
   List<TurnoResponseDto> buscarTodos();
 
-  void actualizarTurno(TurnoRequestDto turno);
+  void actualizarTurno(TurnoRequestDto turno, Integer turnoId);
 
   void eliminarTurno(Integer id);
 
