@@ -11,7 +11,7 @@ public interface IPacienteService {
 
   PacienteResponseDto buscarPorId(Integer id);
 
-  List<Paciente> buscarTodos();
+  List<PacienteResponseDto> buscarTodos();
 
   void actualizarPaciente(Paciente paciente);
 

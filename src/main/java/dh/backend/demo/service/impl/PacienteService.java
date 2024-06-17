@@ -3,6 +3,7 @@ package dh.backend.demo.service.impl;
 import dh.backend.demo.dto.request.DomicilioRequestDto;
 import dh.backend.demo.dto.request.PacienteRequestDto;
 import dh.backend.demo.dto.response.DomicilioResponseDto;
+import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.dto.response.PacienteResponseDto;
 import dh.backend.demo.entity.Domicilio;
 import dh.backend.demo.entity.Paciente;
@@ -12,6 +13,7 @@ import dh.backend.demo.respository.PacienteRepository;
 import dh.backend.demo.service.IPacienteService;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -52,8 +54,13 @@ public class PacienteService implements IPacienteService {
   }
 
   @Override
-  public List<Paciente> buscarTodos() {
-    return pacienteRepository.findAll();
+  public List<PacienteResponseDto> buscarTodos() {
+    List<PacienteResponseDto> pacientesEncontrados = pacienteRepository.findAll()
+            .stream()
+            .map(this::modelToResponse)
+            .collect(Collectors.toList());
+    LOGGER.info("Pacientes fueron encontrados");
+    return pacientesEncontrados;
   }
 
   @Override
