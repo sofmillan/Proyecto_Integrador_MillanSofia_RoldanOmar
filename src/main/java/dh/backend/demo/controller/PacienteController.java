@@ -1,13 +1,10 @@
 package dh.backend.demo.controller;
 
 import dh.backend.demo.dto.request.PacienteRequestDto;
-import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.dto.response.PacienteResponseDto;
 import dh.backend.demo.entity.Paciente;
 import dh.backend.demo.service.IPacienteService;
-import dh.backend.demo.service.impl.PacienteService;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,5 +55,17 @@ public class PacienteController {
   public ResponseEntity<String> eliminarPaciente(@PathVariable Integer id) {
     pacienteService.eliminarPaciente(id);
     return ResponseEntity.ok("paciente eliminado");
+  }
+
+  @GetMapping("/dni/{dni}")
+  public ResponseEntity<List<PacienteResponseDto>> buscartPorDni(@PathVariable String dni) {
+    List<PacienteResponseDto> pacientesEncontrados = pacienteService.buscarPorDni(dni);
+    return ResponseEntity.status(HttpStatus.OK).body(pacientesEncontrados);
+  }
+
+  @GetMapping("/domicilio/provincia/{provincia}")
+  public ResponseEntity<List<PacienteResponseDto>> buscarPorDomicilio(@PathVariable String provincia) {
+    List<PacienteResponseDto> pacientesEncontrados = pacienteService.buscarPorDomicilioProvincia(provincia);
+    return ResponseEntity.status(HttpStatus.OK).body(pacientesEncontrados);
   }
 }

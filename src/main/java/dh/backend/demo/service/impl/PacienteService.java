@@ -9,6 +9,7 @@ import dh.backend.demo.exception.BadRequestException;
 import dh.backend.demo.exception.ResourceNotFoundException;
 import dh.backend.demo.respository.PacienteRepository;
 import dh.backend.demo.service.IPacienteService;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,14 +32,15 @@ public class PacienteService implements IPacienteService {
   }
 
   @Override
-  public PacienteResponseDto registrarPaciente(PacienteRequestDto paciente) {
-    if(paciente.getNombre() == null ){
+  public PacienteResponseDto registrarPaciente(PacienteRequestDto pacienteDto) {
+    if(!validarPaciente(pacienteDto)){
       LOGGER.error("Error al crear paciente - Información inválida");
       throw new BadRequestException("Información de paciente inválida");
     }
-    Paciente paciente1 = requestToModel(paciente);
-    paciente1.setDomicilio(domicilioRequestToModel(paciente.getDomicilio()));
-    return modelToResponse(pacienteRepository.save(paciente1));
+    Paciente paciente = mapPacienteRequestToModel(pacienteDto);
+    paciente.setDomicilio(mapDomicilioRequestToModel(pacienteDto.getDomicilio()));
+    LOGGER.info("Paciente guardado ->"+paciente);
+    return mapPacienteModelToResponse(pacienteRepository.save(paciente));
   }
 
   @Override
@@ -47,14 +49,15 @@ public class PacienteService implements IPacienteService {
       LOGGER.error("Paciente con id "+id+" no encontrado");
       throw new ResourceNotFoundException("Paciente con id:"+id+" no encontrado");
     });
-    return modelToResponse(pacienteEncontrado);
+    LOGGER.info("Paciente con id "+id+" encontrado -> "+pacienteEncontrado);
+    return mapPacienteModelToResponse(pacienteEncontrado);
   }
 
   @Override
   public List<PacienteResponseDto> buscarTodos() {
     List<PacienteResponseDto> pacientesEncontrados = pacienteRepository.findAll()
             .stream()
-            .map(this::modelToResponse)
+            .map(this::mapPacienteModelToResponse)
             .collect(Collectors.toList());
     LOGGER.info("Pacientes fueron encontrados");
     return pacientesEncontrados;
@@ -62,19 +65,35 @@ public class PacienteService implements IPacienteService {
 
   @Override
   public List<PacienteResponseDto> buscarPorDni(String dni) {
-    return null;
+    List<PacienteResponseDto> pacientesEncontrados = pacienteRepository.findByDni(dni)
+            .stream()
+            .map(this::mapPacienteModelToResponse)
+            .collect(Collectors.toList());
+    LOGGER.info("Pacientes fueron encontrados por DNI");
+    return pacientesEncontrados;
   }
 
   @Override
   public List<PacienteResponseDto> buscarPorDomicilioProvincia(String provincia) {
-    return null;
+    List<PacienteResponseDto> pacientesEncontrados = pacienteRepository.findByDomicilioProvincia(provincia)
+            .stream()
+            .map(this::mapPacienteModelToResponse)
+            .collect(Collectors.toList());
+    LOGGER.info("Pacientes fueron encontrados por Provincia");
+    return pacientesEncontrados;
   }
 
   @Override
-  public void actualizarPaciente(PacienteRequestDto paciente, Integer idPaciente) {
-    Paciente paciente1 = requestToModel(paciente);
-    paciente1.setId(idPaciente);
-    pacienteRepository.save(paciente1);
+  public void actualizarPaciente(PacienteRequestDto pacienteDto, Integer idPaciente) {
+    if(!validarPaciente(pacienteDto)){
+      LOGGER.error("Error al actualizar paciente - Información inválida");
+      throw new BadRequestException("Información de paciente inválida");
+
+    }
+    Paciente paciente = mapPacienteRequestToModel(pacienteDto);
+    paciente.setId(idPaciente);
+    LOGGER.info("Paciente con id "+idPaciente+" actualizado");
+    pacienteRepository.save(paciente);
   }
 
   @Override
@@ -83,15 +102,31 @@ public class PacienteService implements IPacienteService {
     LOGGER.info("Paciente con id:"+id+" eliminado");
   }
 
-  private Paciente requestToModel(PacienteRequestDto paciente){
+  private Paciente mapPacienteRequestToModel(PacienteRequestDto paciente){
     return mapper.map(paciente, Paciente.class);
   }
 
-  private PacienteResponseDto modelToResponse(Paciente paciente){
+  private PacienteResponseDto mapPacienteModelToResponse(Paciente paciente){
     return mapper.map(paciente, PacienteResponseDto.class);
   }
 
-  private Domicilio domicilioRequestToModel(DomicilioRequestDto domicilio){
+  private Domicilio mapDomicilioRequestToModel(DomicilioRequestDto domicilio){
     return mapper.map(domicilio, Domicilio.class);
+  }
+
+  private boolean validarPaciente(PacienteRequestDto pacienteDto){
+    if(pacienteDto.getNombre() == null
+            || pacienteDto.getEmail() == null
+            || pacienteDto.getApellido()==null
+            || pacienteDto.getDni() == null){
+      return false;
+    }
+    if(pacienteDto.getNombre().isBlank()
+            || pacienteDto.getEmail().isBlank()
+            || pacienteDto.getApellido().isBlank()
+            || pacienteDto.getDni().isBlank()){
+      return false;
+    }
+    return true;
   }
 }
