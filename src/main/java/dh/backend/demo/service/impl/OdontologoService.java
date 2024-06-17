@@ -1,7 +1,6 @@
 package dh.backend.demo.service.impl;
 
 import dh.backend.demo.dto.request.OdontologoRequestDto;
-import dh.backend.demo.dto.request.OdontologoUpdateDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.entity.Odontologo;
 import dh.backend.demo.exception.BadRequestException;
@@ -9,7 +8,6 @@ import dh.backend.demo.exception.ResourceNotFoundException;
 import dh.backend.demo.respository.OdontologoRepository;
 import dh.backend.demo.service.IOdontologoService;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -63,13 +61,15 @@ public class OdontologoService implements IOdontologoService {
   }
 
   @Override
-  public void actualizarOdontologo(OdontologoUpdateDto odontologo) {
-    if(odontologo.getId() == null){
+  public void actualizarOdontologo(OdontologoRequestDto odontologo, Integer idOdontologo) {
+    if(odontologo.getNroMatricula() == null){
       LOGGER.error("Error al actualizar odontólogo - Información de odontólogo inválida");
       throw new BadRequestException("Debe proveer id para actualizar odontólogo");
     }
-    repository.save(mapupdateToModel(odontologo));
-    LOGGER.info("Odontólogo con id:"+odontologo.getId()+" actualizado");
+    Odontologo odontologoGuardar = mapRequestToModel(odontologo);
+    odontologoGuardar.setId(idOdontologo);
+    repository.save(odontologoGuardar);
+    LOGGER.info("Odontólogo con id:"+idOdontologo+" actualizado");
   }
 
   @Override
@@ -105,10 +105,6 @@ public class OdontologoService implements IOdontologoService {
   }
   private OdontologoResponseDto mapModelToResponse(Odontologo odontologo){
     return mapper.map(odontologo, OdontologoResponseDto.class);
-  }
-
-  private Odontologo mapupdateToModel(OdontologoUpdateDto odontologo){
-    return mapper.map(odontologo, Odontologo.class);
   }
 
 }

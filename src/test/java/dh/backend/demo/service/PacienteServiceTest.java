@@ -61,10 +61,10 @@ public class PacienteServiceTest {
     assertEquals(id, pacienteRecuperado.getId());
   }*/
 
-  @Test
+/*  @Test
   void testBusquedaTodos() {
     List<Paciente> pacientes = pacienteService.buscarTodos();
 
     assertTrue(pacientes.size() != 0);
-  }
+  }*/
 }

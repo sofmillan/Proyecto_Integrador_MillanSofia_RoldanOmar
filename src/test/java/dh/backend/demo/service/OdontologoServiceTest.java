@@ -3,7 +3,6 @@ package dh.backend.demo.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import dh.backend.demo.dto.request.OdontologoRequestDto;
-import dh.backend.demo.dto.request.OdontologoUpdateDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
 
 import java.util.List;
@@ -45,9 +44,9 @@ public class OdontologoServiceTest {
 
     @Test
     void testActualizarOdontologo() {
-        OdontologoUpdateDto odontologo = new OdontologoUpdateDto(1,"999", "Ricky","Shen");
+        OdontologoRequestDto odontologo = new OdontologoRequestDto("999", "Ricky","Shen");
 
-        odontologoService.actualizarOdontologo(odontologo);
+        odontologoService.actualizarOdontologo(odontologo, 1);
 
         assertEquals("999", odontologoService.buscarOdontologoPorId(1).getNroMatricula());
     }

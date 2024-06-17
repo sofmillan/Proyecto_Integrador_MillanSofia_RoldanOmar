@@ -1,6 +1,6 @@
 package dh.backend.demo.service.impl;
 
-import dh.backend.demo.dto.request.OdontologoUpdateDto;
+
 import dh.backend.demo.dto.request.TurnoRequestDto;
 import dh.backend.demo.entity.Odontologo;
 import dh.backend.demo.entity.Paciente;

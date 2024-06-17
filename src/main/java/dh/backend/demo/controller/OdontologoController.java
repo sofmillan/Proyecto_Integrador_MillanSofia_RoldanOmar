@@ -1,9 +1,7 @@
 package dh.backend.demo.controller;
 
 import dh.backend.demo.dto.request.OdontologoRequestDto;
-import dh.backend.demo.dto.request.OdontologoUpdateDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
-import dh.backend.demo.entity.Odontologo;
 import dh.backend.demo.service.IOdontologoService;
 import java.util.List;
 
@@ -39,9 +37,9 @@ public class OdontologoController {
       return ResponseEntity.ok(odontologoEncontrado);
   }
 
-  @PutMapping
-  public ResponseEntity<String> actualizarOdontologo(@RequestBody OdontologoUpdateDto odontologo) {
-    this.service.actualizarOdontologo(odontologo);
+  @PutMapping("/{idOdontologo}")
+  public ResponseEntity<String> actualizarOdontologo(@RequestBody OdontologoRequestDto odontologo, @PathVariable Integer idOdontologo) {
+    this.service.actualizarOdontologo(odontologo, idOdontologo);
     return ResponseEntity.ok("Odontólogo actualizado");
   }
 
