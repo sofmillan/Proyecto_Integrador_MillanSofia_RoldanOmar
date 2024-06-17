@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IPacienteService {
   PacienteResponseDto registrarPaciente(PacienteRequestDto paciente);
 
-  Optional<Paciente> buscarPorId(Integer id);
+  PacienteResponseDto buscarPorId(Integer id);
 
   List<Paciente> buscarTodos();
 

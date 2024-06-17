@@ -1,6 +1,7 @@
 package dh.backend.demo.controller;
 
 import dh.backend.demo.dto.request.PacienteRequestDto;
+import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.dto.response.PacienteResponseDto;
 import dh.backend.demo.entity.Paciente;
 import dh.backend.demo.service.impl.PacienteService;
@@ -34,23 +35,16 @@ public class PacienteController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Paciente> buscarPacientePorId(@PathVariable Integer id) {
-    Optional<Paciente> pacienteEncontrado = pacienteService.buscarPorId(id);
-    if (pacienteEncontrado.isPresent()) {
-      return ResponseEntity.ok(pacienteEncontrado.get());
-    } else {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  public ResponseEntity<PacienteResponseDto> buscarPacientePorId(@PathVariable Integer id) {
+    PacienteResponseDto pacienteEncontrado = pacienteService.buscarPorId(id);
+    return ResponseEntity.ok(pacienteEncontrado);
+
   }
 
   @PostMapping
   public ResponseEntity<PacienteResponseDto> guardarPaciente(@RequestBody PacienteRequestDto paciente) {
-    PacienteResponseDto pacienteGuardado = pacienteService.registrarPaciente(paciente);
-    if (pacienteGuardado != null) {
-      return ResponseEntity.status(HttpStatus.CREATED).body(pacienteGuardado);
-    } else {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
+    PacienteResponseDto odontologoGuardado = this.pacienteService.registrarPaciente(paciente);
+    return ResponseEntity.status(HttpStatus.CREATED).body(odontologoGuardado);
   }
 
   @PutMapping

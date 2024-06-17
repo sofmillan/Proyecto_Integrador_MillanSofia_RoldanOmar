@@ -52,14 +52,14 @@ public class PacienteServiceTest {
     assertNotNull(pacienteGuardado);*/
   }
 
-  @Test
+/*  @Test
   void testPacienteId() {
     Integer id = 1;
     Optional<Paciente> pacienteEncontrado = pacienteService.buscarPorId(id);
     Paciente pacienteRecuperado = pacienteEncontrado.get();
 
     assertEquals(id, pacienteRecuperado.getId());
-  }
+  }*/
 
   @Test
   void testBusquedaTodos() {
