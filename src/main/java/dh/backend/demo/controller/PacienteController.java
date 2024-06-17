@@ -48,9 +48,9 @@ public class PacienteController {
     return ResponseEntity.status(HttpStatus.CREATED).body(odontologoGuardado);
   }
 
-  @PutMapping
-  public ResponseEntity<String> actualizarPaciente(@RequestBody Paciente paciente) {
-    pacienteService.actualizarPaciente(paciente);
+  @PutMapping("/{idPaciente}")
+  public ResponseEntity<String> actualizarPaciente(@RequestBody PacienteRequestDto paciente, @PathVariable Integer idPaciente) {
+    pacienteService.actualizarPaciente(paciente, idPaciente);
     return ResponseEntity.ok("paciente actualizado");
   }
 

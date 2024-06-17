@@ -13,7 +13,11 @@ public interface IPacienteService {
 
   List<PacienteResponseDto> buscarTodos();
 
-  void actualizarPaciente(Paciente paciente);
+  List<PacienteResponseDto> buscarPorDni(String dni);
+
+  List<PacienteResponseDto> buscarPorDomicilioProvincia(String provincia);
+
+  void actualizarPaciente(PacienteRequestDto paciente, Integer idPaciente);
 
   void eliminarPaciente(Integer id);
 }

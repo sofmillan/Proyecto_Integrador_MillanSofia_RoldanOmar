@@ -2,8 +2,6 @@ package dh.backend.demo.service.impl;
 
 import dh.backend.demo.dto.request.DomicilioRequestDto;
 import dh.backend.demo.dto.request.PacienteRequestDto;
-import dh.backend.demo.dto.response.DomicilioResponseDto;
-import dh.backend.demo.dto.response.OdontologoResponseDto;
 import dh.backend.demo.dto.response.PacienteResponseDto;
 import dh.backend.demo.entity.Domicilio;
 import dh.backend.demo.entity.Paciente;
@@ -12,7 +10,6 @@ import dh.backend.demo.exception.ResourceNotFoundException;
 import dh.backend.demo.respository.PacienteRepository;
 import dh.backend.demo.service.IPacienteService;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -64,13 +61,26 @@ public class PacienteService implements IPacienteService {
   }
 
   @Override
-  public void actualizarPaciente(Paciente paciente) {
-    pacienteRepository.save(paciente);
+  public List<PacienteResponseDto> buscarPorDni(String dni) {
+    return null;
+  }
+
+  @Override
+  public List<PacienteResponseDto> buscarPorDomicilioProvincia(String provincia) {
+    return null;
+  }
+
+  @Override
+  public void actualizarPaciente(PacienteRequestDto paciente, Integer idPaciente) {
+    Paciente paciente1 = requestToModel(paciente);
+    paciente1.setId(idPaciente);
+    pacienteRepository.save(paciente1);
   }
 
   @Override
   public void eliminarPaciente(Integer id) {
     pacienteRepository.deleteById(id);
+    LOGGER.info("Paciente con id:"+id+" eliminado");
   }
 
   private Paciente requestToModel(PacienteRequestDto paciente){
