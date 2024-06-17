@@ -1,18 +1,26 @@
 package dh.backend.demo.service;
 
 import dh.backend.demo.dto.request.TurnoRequestDto;
+import dh.backend.demo.dto.response.TurnoResponseDto;
 import dh.backend.demo.entity.Turno;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface ITurnoService {
-  Turno registrar(TurnoRequestDto turno);
+  TurnoResponseDto registrar(TurnoRequestDto turno);
 
-  Optional<Turno> buscarPorId(Integer id);
+  TurnoResponseDto buscarPorId(Integer id);
 
-  List<Turno> buscarTodos();
+  List<TurnoResponseDto> buscarTodos();
 
-  void actualizarTurno(Turno turno);
+  void actualizarTurno(TurnoRequestDto turno);
 
   void eliminarTurno(Integer id);
+
+  // HQL
+  List<TurnoResponseDto> buscarTurnoEntreFechas(LocalDate startDate, LocalDate endDate);
+
+  List<TurnoResponseDto> buscarTurnoPorPaciente(String Nombre);
 }
