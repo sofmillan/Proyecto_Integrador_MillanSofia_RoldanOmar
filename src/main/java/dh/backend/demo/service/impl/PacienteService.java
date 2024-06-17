@@ -22,13 +22,12 @@ import org.springframework.stereotype.Service;
 public class PacienteService implements IPacienteService {
 
   private final PacienteRepository pacienteRepository;
-  private final ModelMapper mapper;
+  private static final ModelMapper mapper = new ModelMapper();
   private static final Logger LOGGER = LoggerFactory.getLogger(OdontologoService.class);
 
 
-  public PacienteService(PacienteRepository pacienteRepository, ModelMapper mapper) {
+  public PacienteService(PacienteRepository pacienteRepository) {
     this.pacienteRepository = pacienteRepository;
-    this.mapper = mapper;
   }
 
   @Override
@@ -57,7 +56,7 @@ public class PacienteService implements IPacienteService {
   public List<PacienteResponseDto> buscarTodos() {
     List<PacienteResponseDto> pacientesEncontrados = pacienteRepository.findAll()
             .stream()
-            .map(this::mapPacienteModelToResponse)
+            .map(PacienteService::mapPacienteModelToResponse)
             .collect(Collectors.toList());
     LOGGER.info("Pacientes fueron encontrados");
     return pacientesEncontrados;
@@ -67,7 +66,7 @@ public class PacienteService implements IPacienteService {
   public List<PacienteResponseDto> buscarPorDni(String dni) {
     List<PacienteResponseDto> pacientesEncontrados = pacienteRepository.findByDni(dni)
             .stream()
-            .map(this::mapPacienteModelToResponse)
+            .map(PacienteService::mapPacienteModelToResponse)
             .collect(Collectors.toList());
     LOGGER.info("Pacientes fueron encontrados por DNI");
     return pacientesEncontrados;
@@ -77,7 +76,7 @@ public class PacienteService implements IPacienteService {
   public List<PacienteResponseDto> buscarPorDomicilioProvincia(String provincia) {
     List<PacienteResponseDto> pacientesEncontrados = pacienteRepository.findByDomicilioProvincia(provincia)
             .stream()
-            .map(this::mapPacienteModelToResponse)
+            .map(PacienteService::mapPacienteModelToResponse)
             .collect(Collectors.toList());
     LOGGER.info("Pacientes fueron encontrados por Provincia");
     return pacientesEncontrados;
@@ -102,15 +101,15 @@ public class PacienteService implements IPacienteService {
     LOGGER.info("Paciente con id:"+id+" eliminado");
   }
 
-  private Paciente mapPacienteRequestToModel(PacienteRequestDto paciente){
+  public static Paciente mapPacienteRequestToModel(PacienteRequestDto paciente){
     return mapper.map(paciente, Paciente.class);
   }
 
-  private PacienteResponseDto mapPacienteModelToResponse(Paciente paciente){
+  public static PacienteResponseDto mapPacienteModelToResponse(Paciente paciente){
     return mapper.map(paciente, PacienteResponseDto.class);
   }
 
-  private Domicilio mapDomicilioRequestToModel(DomicilioRequestDto domicilio){
+  public static Domicilio mapDomicilioRequestToModel(DomicilioRequestDto domicilio){
     return mapper.map(domicilio, Domicilio.class);
   }
 

@@ -18,12 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class OdontologoService implements IOdontologoService {
   private final OdontologoRepository repository;
-  private final ModelMapper mapper;
+  private static final ModelMapper mapper = new ModelMapper();
   private static final Logger LOGGER = LoggerFactory.getLogger(OdontologoService.class);
 
-  public OdontologoService(OdontologoRepository repository, ModelMapper mapper) {
+  public OdontologoService(OdontologoRepository repository) {
     this.repository = repository;
-    this.mapper = mapper;
   }
 
   @Override
@@ -54,7 +53,7 @@ public class OdontologoService implements IOdontologoService {
   public List<OdontologoResponseDto> buscarTodos() {
     List<OdontologoResponseDto> odontologosEncontrados = repository.findAll()
             .stream()
-            .map(this::mapModelToResponse)
+            .map(OdontologoService::mapModelToResponse)
             .collect(Collectors.toList());
     LOGGER.info("Odontólogos fueron encontrados");
     return odontologosEncontrados;
@@ -83,7 +82,7 @@ public class OdontologoService implements IOdontologoService {
     System.out.println(nombre);
     List<OdontologoResponseDto> odontologosEncontrados = repository.findByNombre(nombre)
             .stream()
-            .map(this::mapModelToResponse)
+            .map(OdontologoService::mapModelToResponse)
             .collect(Collectors.toList());
     System.out.println(odontologosEncontrados);
     LOGGER.info("Odontólogos fueron encontrados por nombre");
@@ -94,16 +93,16 @@ public class OdontologoService implements IOdontologoService {
   public List<OdontologoResponseDto> buscarPorMatricula(String matricula) {
     List<OdontologoResponseDto> odontologosEncontrados = repository.findByNroMatricula(matricula)
             .stream()
-            .map(this::mapModelToResponse)
+            .map(OdontologoService::mapModelToResponse)
             .collect(Collectors.toList());
     LOGGER.info("Odontólogos fueron encontrados por nro de matrícula");
     return odontologosEncontrados;
   }
 
-  private Odontologo mapRequestToModel(OdontologoRequestDto odontologo){
+  public static Odontologo mapRequestToModel(OdontologoRequestDto odontologo){
     return mapper.map(odontologo, Odontologo.class);
   }
-  private OdontologoResponseDto mapModelToResponse(Odontologo odontologo){
+  public static OdontologoResponseDto mapModelToResponse(Odontologo odontologo){
     return mapper.map(odontologo, OdontologoResponseDto.class);
   }
 
