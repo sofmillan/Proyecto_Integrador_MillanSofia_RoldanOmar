@@ -65,13 +65,13 @@ public class PacienteService implements IPacienteService {
   }
 
   @Override
-  public List<PacienteResponseDto> buscarPorDni(String dni) {
-    List<PacienteResponseDto> pacientesEncontrados = pacienteRepository.findByDni(dni)
-            .stream()
-            .map(PacienteService::mapPacienteModelToResponse)
-            .collect(Collectors.toList());
-    LOGGER.info("Pacientes fueron encontrados por DNI");
-    return pacientesEncontrados;
+  public PacienteResponseDto buscarPorDni(String dni) {
+    Paciente pacienteEncontrado = pacienteRepository.findTopByDni(dni).orElseThrow(()->{
+      LOGGER.error("Paciente con id "+dni+" no encontrado");
+      throw new ResourceNotFoundException("Paciente con dni:"+dni+" no encontrado");
+    });
+    LOGGER.info("Paciente encontrado por DNI");
+    return mapPacienteModelToResponse(pacienteEncontrado);
   }
 
   @Override
