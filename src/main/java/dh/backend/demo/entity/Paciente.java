@@ -1,15 +1,8 @@
 package dh.backend.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +31,7 @@ public class Paciente {
   @JoinColumn(name = "domicilio_id")
   private Domicilio domicilio;
 
-  @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JsonIgnore
   private Set<Turno> turnoSet = new HashSet<>();
 }
