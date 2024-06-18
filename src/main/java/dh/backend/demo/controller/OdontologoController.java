@@ -55,7 +55,7 @@ public class OdontologoController {
   }
 
   @GetMapping("/matricula/{nroMatricula}")
-  public ResponseEntity<List<OdontologoResponseDto>> buscarOdontologoPorMatricula(@PathVariable String nroMatricula) {
+  public ResponseEntity<OdontologoResponseDto> buscarOdontologoPorMatricula(@PathVariable String nroMatricula) {
     return ResponseEntity.ok(service.buscarPorMatricula(nroMatricula));
   }
 }

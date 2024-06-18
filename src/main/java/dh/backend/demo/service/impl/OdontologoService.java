@@ -90,13 +90,14 @@ public class OdontologoService implements IOdontologoService {
   }
 
   @Override
-  public List<OdontologoResponseDto> buscarPorMatricula(String matricula) {
-    List<OdontologoResponseDto> odontologosEncontrados = repository.findByNroMatricula(matricula)
-            .stream()
-            .map(OdontologoService::mapModelToResponse)
-            .collect(Collectors.toList());
-    LOGGER.info("Odontólogos fueron encontrados por nro de matrícula");
-    return odontologosEncontrados;
+  public OdontologoResponseDto buscarPorMatricula(String matricula) {
+    Odontologo odontologoEncontrado = repository.findTopByNroMatricula(matricula).orElseThrow(
+            ()-> {
+              LOGGER.error("Error al buscar odontólogo - Odontologo con matricula "+matricula+" no encantrado");
+              throw new ResourceNotFoundException("Odontólogo con matricula "+matricula+" no encontrado");
+            });
+    LOGGER.info("Odontólogo encontrado por nro de matrícula");
+    return mapModelToResponse(odontologoEncontrado);
   }
 
   public static Odontologo mapRequestToModel(OdontologoRequestDto odontologo){

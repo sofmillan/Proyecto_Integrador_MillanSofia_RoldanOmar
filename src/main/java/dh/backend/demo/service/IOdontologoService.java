@@ -2,6 +2,8 @@ package dh.backend.demo.service;
 
 import dh.backend.demo.dto.request.OdontologoRequestDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
+import dh.backend.demo.entity.Odontologo;
+
 import java.util.List;
 
 public interface IOdontologoService {
@@ -17,5 +19,5 @@ public interface IOdontologoService {
 
   List<OdontologoResponseDto> buscarPorNombre(String nombre);
 
-  List<OdontologoResponseDto> buscarPorMatricula(String matricula);
+  OdontologoResponseDto buscarPorMatricula(String matricula);
 }
