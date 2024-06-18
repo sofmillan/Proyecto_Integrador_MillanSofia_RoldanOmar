@@ -23,7 +23,7 @@ public class PacienteService implements IPacienteService {
 
   private final PacienteRepository pacienteRepository;
   private static final ModelMapper mapper = new ModelMapper();
-  private static final Logger LOGGER = LoggerFactory.getLogger(OdontologoService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PacienteService.class);
 
 
   public PacienteService(PacienteRepository pacienteRepository) {
@@ -32,14 +32,16 @@ public class PacienteService implements IPacienteService {
 
   @Override
   public PacienteResponseDto registrarPaciente(PacienteRequestDto pacienteDto) {
-    if(!validarPaciente(pacienteDto)){
+    if(validarPaciente(pacienteDto)){
       LOGGER.error("Error al crear paciente - Información inválida");
       throw new BadRequestException("Información de paciente inválida");
     }
     Paciente paciente = mapPacienteRequestToModel(pacienteDto);
     paciente.setDomicilio(mapDomicilioRequestToModel(pacienteDto.getDomicilio()));
-    LOGGER.info("Paciente guardado ->"+paciente);
-    return mapPacienteModelToResponse(pacienteRepository.save(paciente));
+
+    Paciente pacienteGuardado = pacienteRepository.save(paciente);
+    LOGGER.info("Paciente guardado ->"+pacienteGuardado);
+    return mapPacienteModelToResponse(pacienteGuardado);
   }
 
   @Override
@@ -84,7 +86,7 @@ public class PacienteService implements IPacienteService {
 
   @Override
   public void actualizarPaciente(PacienteRequestDto pacienteDto, Integer idPaciente) {
-    if(!validarPaciente(pacienteDto)){
+    if(validarPaciente(pacienteDto)){
       LOGGER.error("Error al actualizar paciente - Información inválida");
       throw new BadRequestException("Información de paciente inválida");
 
@@ -118,14 +120,11 @@ public class PacienteService implements IPacienteService {
             || pacienteDto.getEmail() == null
             || pacienteDto.getApellido()==null
             || pacienteDto.getDni() == null){
-      return false;
+      return true;
     }
-    if(pacienteDto.getNombre().isBlank()
-            || pacienteDto.getEmail().isBlank()
+    return pacienteDto.getNombre().isBlank()
+             || pacienteDto.getEmail().isBlank()
             || pacienteDto.getApellido().isBlank()
-            || pacienteDto.getDni().isBlank()){
-      return false;
-    }
-    return true;
+            || pacienteDto.getDni().isBlank();
   }
 }

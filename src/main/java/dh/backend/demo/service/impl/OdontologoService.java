@@ -27,7 +27,7 @@ public class OdontologoService implements IOdontologoService {
 
   @Override
   public OdontologoResponseDto registrarOdontologo(OdontologoRequestDto odontologoDto) {
-    if(!validarOdontogo(odontologoDto)){
+    if(validarOdontogo(odontologoDto)){
       LOGGER.error("Error al guardar odontólogo - Información de odontólogo inválida");
       throw new BadRequestException("Información de odontólogo inválida");
     }
@@ -61,7 +61,7 @@ public class OdontologoService implements IOdontologoService {
 
   @Override
   public void actualizarOdontologo(OdontologoRequestDto odontologoDto, Integer idOdontologo) {
-    if(!validarOdontogo(odontologoDto)){
+    if(validarOdontogo(odontologoDto)){
       LOGGER.error("Error al actualizar odontólogo - Información de odontólogo inválida");
       throw new BadRequestException("Debe proveer id para actualizar odontólogo");
     }
@@ -108,8 +108,9 @@ public class OdontologoService implements IOdontologoService {
 
   private static boolean validarOdontogo(OdontologoRequestDto odontologo){
     if(odontologo.getNroMatricula() == null || odontologo.getNombre() == null || odontologo.getApellido() == null){
-      return false;
+      return true;
     }
+
     return odontologo.getNroMatricula().isBlank() || odontologo.getNombre().isBlank() || odontologo.getApellido().isBlank();
   }
 

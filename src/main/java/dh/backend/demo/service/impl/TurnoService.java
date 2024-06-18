@@ -36,7 +36,7 @@ public class TurnoService implements ITurnoService {
 
   @Override
   public TurnoResponseDto registrar(TurnoRequestDto turno) {
-    if(!validarTurno(turno)){
+    if(validarTurno(turno)){
       LOGGER.error("Error al guardar turno - Información de turno inválida");
       throw new BadRequestException("Información de turno inválida");
     }
@@ -82,7 +82,7 @@ public class TurnoService implements ITurnoService {
 
   @Override
   public void actualizarTurno(TurnoRequestDto turno, Integer turnoId) {
-    if(!validarTurno(turno)){
+    if(validarTurno(turno)){
       LOGGER.error("Error al actualizar turno - Información de turno inválida");
       throw new BadRequestException("Información de turno inválida");
     }
@@ -145,7 +145,7 @@ public class TurnoService implements ITurnoService {
 
   private static boolean validarTurno(TurnoRequestDto turnoDto){
     if(turnoDto.getFecha() == null || turnoDto.getPacienteId() == null || turnoDto.getOdontologoId() == null){
-      return false;
+      return true;
     }
     return turnoDto.getFecha().isEmpty();
   }
