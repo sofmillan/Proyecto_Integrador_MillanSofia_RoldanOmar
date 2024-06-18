@@ -6,6 +6,7 @@ import dh.backend.demo.dto.response.TurnoResponseDto;
 import dh.backend.demo.entity.Odontologo;
 import dh.backend.demo.entity.Paciente;
 import dh.backend.demo.entity.Turno;
+import dh.backend.demo.exception.BadRequestException;
 import dh.backend.demo.exception.ResourceNotFoundException;
 import dh.backend.demo.respository.OdontologoRepository;
 import dh.backend.demo.respository.PacienteRepository;
@@ -35,11 +36,16 @@ public class TurnoService implements ITurnoService {
 
   @Override
   public TurnoResponseDto registrar(TurnoRequestDto turno) {
-    Paciente pacienteBuscado = pacienteRepository.findById(turno.getPaciente_id()).orElseThrow(()->{
+    if(!validarTurno(turno)){
+      LOGGER.error("Error al guardar turno - Información de turno inválida");
+      throw new BadRequestException("Información de turno inválida");
+    }
+
+    Paciente pacienteBuscado = pacienteRepository.findById(turno.getPacienteId()).orElseThrow(()->{
       LOGGER.error("Paciente no encontrado");
       throw new ResourceNotFoundException("Paciente no encontrado");
     });
-    Odontologo odontologoBuscado = odontologoRepository.findById(turno.getOdontologo_id()).orElseThrow(()->{
+    Odontologo odontologoBuscado = odontologoRepository.findById(turno.getOdontologoId()).orElseThrow(()->{
       LOGGER.error("Odontólogo no encontrado");
       throw new ResourceNotFoundException("Odontólogo no encontrado");
     });
@@ -76,11 +82,16 @@ public class TurnoService implements ITurnoService {
 
   @Override
   public void actualizarTurno(TurnoRequestDto turno, Integer turnoId) {
-    Paciente pacienteBuscado = pacienteRepository.findById(turno.getPaciente_id()).orElseThrow(()->{
+    if(!validarTurno(turno)){
+      LOGGER.error("Error al actualizar turno - Información de turno inválida");
+      throw new BadRequestException("Información de turno inválida");
+    }
+
+    Paciente pacienteBuscado = pacienteRepository.findById(turno.getPacienteId()).orElseThrow(()->{
       LOGGER.error("Paciente no encontrado");
       throw new ResourceNotFoundException("Paciente no encontrado");
     });
-    Odontologo odontologoBuscado = odontologoRepository.findById(turno.getOdontologo_id()).orElseThrow(()->{
+    Odontologo odontologoBuscado = odontologoRepository.findById(turno.getOdontologoId()).orElseThrow(()->{
       LOGGER.error("Odontólogo no encontrado");
       throw new ResourceNotFoundException("Odontólogo no encontrado");
     });
@@ -130,5 +141,12 @@ public class TurnoService implements ITurnoService {
     turnoResponse.setOdontologo(OdontologoService.mapModelToResponse(turno.getOdontologo()));
     turnoResponse.setFecha(turno.getFecha());
    return turnoResponse;
+  }
+
+  private static boolean validarTurno(TurnoRequestDto turnoDto){
+    if(turnoDto.getFecha() == null || turnoDto.getPacienteId() == null || turnoDto.getOdontologoId() == null){
+      return false;
+    }
+    return turnoDto.getFecha().isEmpty();
   }
 }
