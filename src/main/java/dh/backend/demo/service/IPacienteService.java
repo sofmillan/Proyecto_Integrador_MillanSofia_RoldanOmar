@@ -1,17 +1,23 @@
 package dh.backend.demo.service;
 
+import dh.backend.demo.dto.request.PacienteRequestDto;
+import dh.backend.demo.dto.response.PacienteResponseDto;
 import dh.backend.demo.entity.Paciente;
 import java.util.List;
 import java.util.Optional;
 
 public interface IPacienteService {
-  Paciente registrarPaciente(Paciente paciente);
+  PacienteResponseDto registrarPaciente(PacienteRequestDto paciente);
 
-  Optional<Paciente> buscarPorId(Integer id);
+  PacienteResponseDto buscarPorId(Integer id);
 
-  List<Paciente> buscarTodos();
+  List<PacienteResponseDto> buscarTodos();
 
-  void actualizarPaciente(Paciente paciente);
+  List<PacienteResponseDto> buscarPorDni(String dni);
+
+  List<PacienteResponseDto> buscarPorDomicilioProvincia(String provincia);
+
+  void actualizarPaciente(PacienteRequestDto paciente, Integer idPaciente);
 
   void eliminarPaciente(Integer id);
 }

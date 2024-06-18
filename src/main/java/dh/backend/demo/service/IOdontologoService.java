@@ -2,18 +2,20 @@ package dh.backend.demo.service;
 
 import dh.backend.demo.dto.request.OdontologoRequestDto;
 import dh.backend.demo.dto.response.OdontologoResponseDto;
-import dh.backend.demo.entity.Odontologo;
 import java.util.List;
-import java.util.Optional;
 
 public interface IOdontologoService {
   OdontologoResponseDto registrarOdontologo(OdontologoRequestDto odontologo);
 
-  Optional<Odontologo> buscarOdontologoPorId(Integer id);
+  OdontologoResponseDto buscarOdontologoPorId(Integer id);
 
-  List<Odontologo> buscarTodos();
+  List<OdontologoResponseDto> buscarTodos();
 
-  void actualizarOdontologo(Odontologo paciente);
+  void actualizarOdontologo(OdontologoRequestDto paciente, Integer idOdontologo);
 
   void eliminarOdontologo(Integer id);
+
+  List<OdontologoResponseDto> buscarPorNombre(String nombre);
+
+  List<OdontologoResponseDto> buscarPorMatricula(String matricula);
 }

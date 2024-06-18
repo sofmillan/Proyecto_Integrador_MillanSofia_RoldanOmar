@@ -1,53 +1,31 @@
 package dh.backend.demo.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import dh.backend.demo.entity.Domicilio;
-import dh.backend.demo.entity.Paciente;
+import dh.backend.demo.dto.request.DomicilioRequestDto;
+import dh.backend.demo.dto.request.PacienteRequestDto;
+import dh.backend.demo.dto.response.PacienteResponseDto;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import org.junit.jupiter.api.BeforeAll;
+
+import dh.backend.demo.exception.ResourceNotFoundException;
+import dh.backend.demo.service.impl.PacienteService;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class PacienteServiceTest {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PacienteServiceTest.class);
-
-  private IPacienteService pacienteService;
-  private static Paciente paciente;
-
   @Autowired
-  public PacienteServiceTest(IPacienteService pacienteService) {
-    this.pacienteService = pacienteService;
-  }
-
-  @BeforeAll
-  // Populate the database
-  static void setup() {
-    paciente = new Paciente();
-    paciente.setNombre("Menganito");
-    paciente.setApellido("Cosme");
-    paciente.setDni("464646");
-    paciente.setFechaIngreso(LocalDate.of(2024, 01, 12));
-    Domicilio domicilio = new Domicilio();
-    domicilio.setCalle("Calle");
-    domicilio.setNumero(123);
-    domicilio.setLocalidad("San Pedro");
-    domicilio.setProvincia("Jujuy");
-    paciente.setDomicilio(domicilio);
-  }
+  private PacienteService pacienteService;
 
   @Test
   void testPacienteGuardado() {
-    Paciente pacienteGuardado = pacienteService.registrarPaciente(paciente);
+    DomicilioRequestDto domicilioRequest = new DomicilioRequestDto(null, "Calle 45", 12, "Pereira", "Quindío");
+    PacienteRequestDto pacienteRequest = new PacienteRequestDto("Millán", "Sofía", "example@gmail.com", "123", LocalDate.of(2021,8,1), domicilioRequest);
+
+    PacienteResponseDto pacienteGuardado = pacienteService.registrarPaciente(pacienteRequest);
 
     assertNotNull(pacienteGuardado);
   }
@@ -55,16 +33,33 @@ public class PacienteServiceTest {
   @Test
   void testPacienteId() {
     Integer id = 1;
-    Optional<Paciente> pacienteEncontrado = pacienteService.buscarPorId(id);
-    Paciente pacienteRecuperado = pacienteEncontrado.get();
+    PacienteResponseDto pacienteEncontrado = pacienteService.buscarPorId(id);
 
-    assertEquals(id, pacienteRecuperado.getId());
+    assertEquals(id, pacienteEncontrado.getId());
+  }
+  @Test
+  void testBusquedaTodos() {
+    List<PacienteResponseDto> pacientes = pacienteService.buscarTodos();
+
+    assertTrue(pacientes.size() != 0);
   }
 
   @Test
-  void testBusquedaTodos() {
-    List<Paciente> pacientes = pacienteService.buscarTodos();
+  void testActualizarPaciente() {
+    DomicilioRequestDto domicilioRequest = new DomicilioRequestDto(1, "Calle 45", 12, "Pereira", "Quindío");
+    PacienteRequestDto pacienteRequest = new PacienteRequestDto("Millán", "Sofía", "sofia@gmail.com", "123", LocalDate.of(2021,8,1), domicilioRequest);
 
-    assertTrue(pacientes.size() != 0);
+    pacienteService.actualizarPaciente(pacienteRequest, 1);
+
+    assertEquals("sofia@gmail.com",pacienteRequest.getEmail());
+  }
+
+
+  @Test
+  void testEliminarPaciente() {
+
+    pacienteService.eliminarPaciente(1);
+
+    assertThrows(ResourceNotFoundException.class, ()-> pacienteService.buscarPorId(1));
   }
 }
