@@ -104,7 +104,6 @@ public class TurnoServiceTest {
 
         turnoService.eliminarTurno(turnoId);
 
-        System.out.println(turnoService.buscarPorId(turnoId));
         assertThrows(ResourceNotFoundException.class, ()-> turnoService.buscarPorId(turnoId));
     }
 }

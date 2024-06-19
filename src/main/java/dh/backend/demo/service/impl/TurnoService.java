@@ -109,6 +109,8 @@ public class TurnoService implements ITurnoService {
 
   @Override
   public void eliminarTurno(Integer id) {
+    this.buscarPorId(id);
+
     turnoRepository.deleteById(id);
     LOGGER.info("Turno con id:"+id+" eliminado");
 

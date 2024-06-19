@@ -13,7 +13,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "pacientes")
 public class Paciente {
@@ -32,7 +31,17 @@ public class Paciente {
   @JoinColumn(name = "domicilio_id")
   private Domicilio domicilio;
 
-  @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
   @JsonIgnore
   private Set<Turno> turnoSet = new HashSet<>();
+
+  public Paciente(Integer id, String apellido, String nombre, String email, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
+    this.id = id;
+    this.apellido = apellido;
+    this.nombre = nombre;
+    this.email = email;
+    this.dni = dni;
+    this.fechaIngreso = fechaIngreso;
+    this.domicilio = domicilio;
+  }
 }
