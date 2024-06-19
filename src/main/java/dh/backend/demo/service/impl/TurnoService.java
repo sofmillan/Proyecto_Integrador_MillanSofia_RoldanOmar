@@ -26,7 +26,7 @@ public class TurnoService implements ITurnoService {
   private final TurnoRepository turnoRepository;
   private final PacienteRepository pacienteRepository;
   private final OdontologoRepository odontologoRepository;
-  private static final Logger LOGGER = LoggerFactory.getLogger(OdontologoService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TurnoService.class);
 
   public TurnoService(TurnoRepository turnoRepository, PacienteRepository pacienteRepository, OdontologoRepository odontologoRepository) {
     this.turnoRepository = turnoRepository;
