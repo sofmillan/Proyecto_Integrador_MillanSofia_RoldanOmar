@@ -4,6 +4,7 @@ form.addEventListener("submit", function (event) {
   event.preventDefault();
 
   let method = "POST";
+  let url = `http://localhost:8080/odontologo`;
   const nombre = document.getElementById("nombre").value;
   const apellido = document.getElementById("apellido").value;
   const matricula = document.getElementById("matricula").value;
@@ -12,11 +13,13 @@ form.addEventListener("submit", function (event) {
 
   if (params.id) {
     method = "PUT";
-    body = { id: params.id, nombre: nombre, apellido: apellido, nroMatricula: matricula }
+    body = { nombre: nombre, apellido: apellido, nroMatricula: matricula }
+    url = `http://localhost:8080/odontologo/${params.id}`;
+    console.log(url)
   }
 
   // llamando al endpoint de agregar
-  fetch(`http://localhost:8080/odontologo`, {
+  fetch(url, {
     method: method,
     headers: {
       "Content-Type": "application/json",
