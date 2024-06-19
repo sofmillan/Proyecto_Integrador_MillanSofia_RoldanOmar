@@ -47,10 +47,10 @@ public class PacienteService implements IPacienteService {
   @Override
   public PacienteResponseDto buscarPorId(Integer id) {
     Paciente pacienteEncontrado = pacienteRepository.findById(id).orElseThrow(()->{
-      LOGGER.error("Paciente con id "+id+" no encontrado");
+      LOGGER.error("Paciente con id:"+id+" no encontrado");
       throw new ResourceNotFoundException("Paciente con id:"+id+" no encontrado");
     });
-    LOGGER.info("Paciente con id "+id+" encontrado -> "+pacienteEncontrado);
+    LOGGER.info("Paciente con id:"+id+" encontrado -> "+pacienteEncontrado);
     return mapPacienteModelToResponse(pacienteEncontrado);
   }
 
@@ -67,10 +67,10 @@ public class PacienteService implements IPacienteService {
   @Override
   public PacienteResponseDto buscarPorDni(String dni) {
     Paciente pacienteEncontrado = pacienteRepository.findTopByDni(dni).orElseThrow(()->{
-      LOGGER.error("Paciente con id "+dni+" no encontrado");
+      LOGGER.error("Paciente con dni:"+dni+" no encontrado");
       throw new ResourceNotFoundException("Paciente con dni:"+dni+" no encontrado");
     });
-    LOGGER.info("Paciente encontrado por DNI");
+    LOGGER.info("Paciente con dni:"+dni+" encontrado -> "+pacienteEncontrado);
     return mapPacienteModelToResponse(pacienteEncontrado);
   }
 
@@ -93,12 +93,13 @@ public class PacienteService implements IPacienteService {
     }
     Paciente paciente = mapPacienteRequestToModel(pacienteDto);
     paciente.setId(idPaciente);
-    LOGGER.info("Paciente con id "+idPaciente+" actualizado");
+    LOGGER.info("Paciente con id:"+idPaciente+" actualizado");
     pacienteRepository.save(paciente);
   }
 
   @Override
   public void eliminarPaciente(Integer id) {
+    this.buscarPorId(id);
     pacienteRepository.deleteById(id);
     LOGGER.info("Paciente con id:"+id+" eliminado");
   }
