@@ -60,12 +60,12 @@ public class OdontologoServiceTest {
         assertTrue(odontologos.size() != 0);
     }
 
-/*    @Test
+    @Test
     void testBuscarPorNumeroMatricula() {
-        List<OdontologoResponseDto> odontologos = odontologoService.buscarPorMatricula("999");
+        OdontologoResponseDto odontologo = odontologoService.buscarPorMatricula("999");
 
-        assertTrue(odontologos.size() != 0);
-    }*/
+        assertNotNull(odontologo);
+    }
 
     @Test
     void testEliminarOdontologo() {
