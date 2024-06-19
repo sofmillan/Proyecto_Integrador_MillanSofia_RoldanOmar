@@ -10,16 +10,21 @@ import java.util.List;
 import dh.backend.demo.exception.ResourceNotFoundException;
 import dh.backend.demo.service.impl.OdontologoService;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OdontologoServiceTest {
   @Autowired
   private OdontologoService odontologoService;
 
   @Test
+  @Order(1)
   void testOdontologoGuardado() {
    OdontologoRequestDto odontologo = new OdontologoRequestDto("12345", "Ricky","Shen");
 
@@ -29,20 +34,23 @@ public class OdontologoServiceTest {
   }
 
   @Test
-  void testOdontologoId() {
+  @Order(2)
+  void testBuscarOdontologoPorId() {
     Integer id = 1;
     OdontologoResponseDto odontologoEncontrado = odontologoService.buscarOdontologoPorId(id);
 
     assertEquals(id, odontologoEncontrado.getId());
   }
   @Test
-  void testBusquedaTodos() {
+  @Order(3)
+  void testBuscarTodosOdontologos() {
     List<OdontologoResponseDto> odontologos = odontologoService.buscarTodos();
 
     assertTrue(odontologos.size() != 0);
   }
 
     @Test
+    @Order(4)
     void testActualizarOdontologo() {
         OdontologoRequestDto odontologo = new OdontologoRequestDto("999", "Ricky","Shen");
 
@@ -52,7 +60,8 @@ public class OdontologoServiceTest {
     }
 
     @Test
-    void testBuscarPorNombre() {
+    @Order(5)
+    void testBuscarOdontologoPorNombre() {
         odontologoService.registrarOdontologo(new OdontologoRequestDto("12345", "Hannah","Marin"));
 
         List<OdontologoResponseDto> odontologos = odontologoService.buscarPorNombre("Hannah");
@@ -61,13 +70,15 @@ public class OdontologoServiceTest {
     }
 
     @Test
-    void testBuscarPorNumeroMatricula() {
+    @Order(6)
+    void testBuscarOdontologoPorNumeroMatricula() {
         OdontologoResponseDto odontologo = odontologoService.buscarPorMatricula("999");
 
         assertNotNull(odontologo);
     }
 
     @Test
+    @Order(7)
     void testEliminarOdontologo() {
 
         odontologoService.eliminarOdontologo(1);

@@ -26,7 +26,7 @@ public class PacienteServiceTest {
 
   @Test
   @Order(1)
-  void testPacienteGuardado() {
+  void testGuardarPaciente() {
     DomicilioRequestDto domicilioRequest = new DomicilioRequestDto(null, "Calle 45", 12, "Pereira", "Quindío");
     PacienteRequestDto pacienteRequest = new PacienteRequestDto("Millán", "Sofía", "example@gmail.com", "123", LocalDate.of(2021,8,1), domicilioRequest);
 
@@ -37,7 +37,7 @@ public class PacienteServiceTest {
 
   @Test
   @Order(2)
-  void testPacienteId() {
+  void testBuscarPacientePorId() {
     Integer id = 1;
     PacienteResponseDto pacienteEncontrado = pacienteService.buscarPorId(id);
 
@@ -45,7 +45,7 @@ public class PacienteServiceTest {
   }
   @Test
   @Order(3)
-  void testBusquedaTodos() {
+  void testBuscarTodosPacientes() {
     List<PacienteResponseDto> pacientes = pacienteService.buscarTodos();
 
     assertTrue(pacientes.size() != 0);
@@ -53,7 +53,7 @@ public class PacienteServiceTest {
 
   @Test
   @Order(4)
-  void testBusquedaPorProvincia() {
+  void testBuscarPacientesPorProvincia() {
     List<PacienteResponseDto> pacientes = pacienteService.buscarPorDomicilioProvincia("Quindío");
 
     assertTrue(pacientes.size() != 0);
@@ -61,7 +61,7 @@ public class PacienteServiceTest {
 
   @Test
   @Order(5)
-  void testBusquedaPorDni() {
+  void testBuscarPacientesPorDni() {
     PacienteResponseDto pacienteEncontrado = pacienteService.buscarPorDni("123");
 
     assertNotNull(pacienteEncontrado);
