@@ -38,7 +38,7 @@ public class TurnoController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> eliminarPaciente(@PathVariable Integer id) {
+  public ResponseEntity<String> eliminarTurno(@PathVariable Integer id) {
     turnoService.eliminarTurno(id);
     return ResponseEntity.ok("Turno eliminado");
   }
@@ -54,6 +54,11 @@ public class TurnoController {
   @GetMapping("/paciente/{nombre}")
   public ResponseEntity<List<TurnoResponseDto>> buscarPorPaciente(@PathVariable String nombre) {
     return ResponseEntity.ok(turnoService.buscarTurnoPorPaciente(nombre));
+  }
+
+  @GetMapping("/{turnoId}")
+  public ResponseEntity<TurnoResponseDto> buscarPorId(@PathVariable Integer turnoId) {
+    return ResponseEntity.ok(turnoService.buscarPorId(turnoId));
   }
 
 }

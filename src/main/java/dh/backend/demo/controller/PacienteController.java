@@ -58,8 +58,8 @@ public class PacienteController {
   }
 
   @GetMapping("/dni/{dni}")
-  public ResponseEntity<List<PacienteResponseDto>> buscartPorDni(@PathVariable String dni) {
-    List<PacienteResponseDto> pacientesEncontrados = pacienteService.buscarPorDni(dni);
+  public ResponseEntity<PacienteResponseDto> buscartPorDni(@PathVariable String dni) {
+    PacienteResponseDto pacientesEncontrados = pacienteService.buscarPorDni(dni);
     return ResponseEntity.status(HttpStatus.OK).body(pacientesEncontrados);
   }
 

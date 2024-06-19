@@ -26,13 +26,13 @@ public class OdontologoService implements IOdontologoService {
   }
 
   @Override
-  public OdontologoResponseDto registrarOdontologo(OdontologoRequestDto odontologo) {
-    if(odontologo.getNombre() == null || odontologo.getNroMatricula() == null || odontologo.getApellido() == null){
+  public OdontologoResponseDto registrarOdontologo(OdontologoRequestDto odontologoDto) {
+    if(validarOdontogo(odontologoDto)){
       LOGGER.error("Error al guardar odontólogo - Información de odontólogo inválida");
       throw new BadRequestException("Información de odontólogo inválida");
     }
 
-    Odontologo odontologoGuardado = repository.save(mapRequestToModel(odontologo));
+    Odontologo odontologoGuardado = repository.save(mapRequestToModel(odontologoDto));
     LOGGER.info("Odontólogo guardado exitosamente "+odontologoGuardado);
 
     return mapModelToResponse(odontologoGuardado);
@@ -60,12 +60,12 @@ public class OdontologoService implements IOdontologoService {
   }
 
   @Override
-  public void actualizarOdontologo(OdontologoRequestDto odontologo, Integer idOdontologo) {
-    if(odontologo.getNroMatricula() == null){
+  public void actualizarOdontologo(OdontologoRequestDto odontologoDto, Integer idOdontologo) {
+    if(validarOdontogo(odontologoDto)){
       LOGGER.error("Error al actualizar odontólogo - Información de odontólogo inválida");
       throw new BadRequestException("Debe proveer id para actualizar odontólogo");
     }
-    Odontologo odontologoGuardar = mapRequestToModel(odontologo);
+    Odontologo odontologoGuardar = mapRequestToModel(odontologoDto);
     odontologoGuardar.setId(idOdontologo);
     repository.save(odontologoGuardar);
     LOGGER.info("Odontólogo con id:"+idOdontologo+" actualizado");
@@ -90,13 +90,14 @@ public class OdontologoService implements IOdontologoService {
   }
 
   @Override
-  public List<OdontologoResponseDto> buscarPorMatricula(String matricula) {
-    List<OdontologoResponseDto> odontologosEncontrados = repository.findByNroMatricula(matricula)
-            .stream()
-            .map(OdontologoService::mapModelToResponse)
-            .collect(Collectors.toList());
-    LOGGER.info("Odontólogos fueron encontrados por nro de matrícula");
-    return odontologosEncontrados;
+  public OdontologoResponseDto buscarPorMatricula(String matricula) {
+    Odontologo odontologoEncontrado = repository.findTopByNroMatricula(matricula).orElseThrow(
+            ()-> {
+              LOGGER.error("Error al buscar odontólogo - Odontologo con matricula "+matricula+" no encantrado");
+              throw new ResourceNotFoundException("Odontólogo con matricula "+matricula+" no encontrado");
+            });
+    LOGGER.info("Odontólogo encontrado por nro de matrícula");
+    return mapModelToResponse(odontologoEncontrado);
   }
 
   public static Odontologo mapRequestToModel(OdontologoRequestDto odontologo){
@@ -104,6 +105,14 @@ public class OdontologoService implements IOdontologoService {
   }
   public static OdontologoResponseDto mapModelToResponse(Odontologo odontologo){
     return mapper.map(odontologo, OdontologoResponseDto.class);
+  }
+
+  private static boolean validarOdontogo(OdontologoRequestDto odontologo){
+    if(odontologo.getNroMatricula() == null || odontologo.getNombre() == null || odontologo.getApellido() == null){
+      return true;
+    }
+
+    return odontologo.getNroMatricula().isBlank() || odontologo.getNombre().isBlank() || odontologo.getApellido().isBlank();
   }
 
 }

@@ -13,7 +13,7 @@ public interface IPacienteService {
 
   List<PacienteResponseDto> buscarTodos();
 
-  List<PacienteResponseDto> buscarPorDni(String dni);
+  PacienteResponseDto buscarPorDni(String dni);
 
   List<PacienteResponseDto> buscarPorDomicilioProvincia(String provincia);
 
