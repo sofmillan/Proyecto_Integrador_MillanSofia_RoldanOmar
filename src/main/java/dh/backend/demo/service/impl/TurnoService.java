@@ -103,8 +103,7 @@ public class TurnoService implements ITurnoService {
     turnoARegistrar.setFecha(LocalDate.parse(turno.getFecha()));
 
     turnoRepository.save(turnoARegistrar);
-    LOGGER.info("Turno actualizado");
-
+    LOGGER.info("Turno con id:"+turnoId+" actualizado");
   }
 
   @Override
@@ -132,7 +131,7 @@ public class TurnoService implements ITurnoService {
             .stream()
             .map(this::mapModelToResponse)
             .collect(Collectors.toList());
-    LOGGER.info("Turnos encontrados por paciente");
+    LOGGER.info("Turnos encontrados por nombre paciente");
     return turnosEncontrados;
   }
 

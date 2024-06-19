@@ -42,10 +42,10 @@ public class OdontologoService implements IOdontologoService {
   public OdontologoResponseDto buscarOdontologoPorId(Integer id) {
     Odontologo odontologoEncontrado = repository.findById(id).orElseThrow(
             ()-> {
-              LOGGER.error("Error al buscar odontólogo - Odontologo con id "+id+" no encantrado");
-              throw new ResourceNotFoundException("Odontólogo con id "+id+" no encontrado");
+              LOGGER.error("Error al buscar odontólogo - Odontologo con id:"+id+" no encantrado");
+              throw new ResourceNotFoundException("Odontólogo con id:"+id+" no encontrado");
             });
-
+    LOGGER.info("Paciente con id:"+id+" encontrado -> "+odontologoEncontrado);
     return mapModelToResponse(odontologoEncontrado);
   }
 
@@ -73,6 +73,7 @@ public class OdontologoService implements IOdontologoService {
 
   @Override
   public void eliminarOdontologo(Integer id) {
+    this.buscarOdontologoPorId(id);
     repository.deleteById(id);
     LOGGER.info("Odontólogo con id:"+id+" eliminado");
   }
@@ -96,7 +97,7 @@ public class OdontologoService implements IOdontologoService {
               LOGGER.error("Error al buscar odontólogo - Odontologo con matricula "+matricula+" no encantrado");
               throw new ResourceNotFoundException("Odontólogo con matricula "+matricula+" no encontrado");
             });
-    LOGGER.info("Odontólogo encontrado por nro de matrícula");
+    LOGGER.info("Odontólogo encontrado por nro de matrícula:"+matricula+" ->"+odontologoEncontrado);
     return mapModelToResponse(odontologoEncontrado);
   }
 
