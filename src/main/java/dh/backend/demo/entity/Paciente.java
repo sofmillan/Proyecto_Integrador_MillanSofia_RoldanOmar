@@ -35,13 +35,16 @@ public class Paciente {
   @JsonIgnore
   private Set<Turno> turnoSet = new HashSet<>();
 
-  public Paciente(Integer id, String apellido, String nombre, String email, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
-    this.id = id;
-    this.apellido = apellido;
-    this.nombre = nombre;
-    this.email = email;
-    this.dni = dni;
-    this.fechaIngreso = fechaIngreso;
-    this.domicilio = domicilio;
+  @Override
+  public String toString() {
+    return "Paciente{" +
+            "id=" + id +
+            ", apellido='" + apellido + '\'' +
+            ", nombre='" + nombre + '\'' +
+            ", email='" + email + '\'' +
+            ", dni='" + dni + '\'' +
+            ", fechaIngreso=" + fechaIngreso +
+            ", domicilio=" + domicilio +
+            '}';
   }
 }

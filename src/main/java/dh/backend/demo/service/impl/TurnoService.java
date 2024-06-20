@@ -63,8 +63,8 @@ public class TurnoService implements ITurnoService {
   @Override
   public TurnoResponseDto buscarPorId(Integer id) {
     Turno turnoEncontrado = turnoRepository.findById(id).orElseThrow(()->{
-      LOGGER.error("Turno con id:"+id+" no enconrado");
-      throw new ResourceNotFoundException("Turno con id:"+id+" no enconrado");
+      LOGGER.error("Turno con id:"+id+" no encontrado");
+      throw new ResourceNotFoundException("Turno con id:"+id+" no encontrado");
     });
     LOGGER.info("Turno con id:"+id+" encontrado");
     return mapModelToResponse(turnoEncontrado);
