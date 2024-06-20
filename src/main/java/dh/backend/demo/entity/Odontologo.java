@@ -10,11 +10,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import lombok.*;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -32,4 +32,14 @@ public class Odontologo {
   @OneToMany(mappedBy = "odontologo", cascade = CascadeType.ALL)
   @JsonIgnore
   private Set<Turno> turnoSet = new HashSet<>();
+
+  @Override
+  public String toString() {
+    return "Odontologo{" +
+            "id=" + id +
+            ", nroMatricula='" + nroMatricula + '\'' +
+            ", nombre='" + nombre + '\'' +
+            ", apellido='" + apellido + '\'' +
+            '}';
+  }
 }
